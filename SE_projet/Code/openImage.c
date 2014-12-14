@@ -10,7 +10,7 @@ void insertImageName(ListImage current,){
 }*/
 
 char* readBankImage(const char *path){
-	DIR*dir=NULL;
+	DIR *dir=NULL;
 	struct dirent * enter;
 	int i=0;
 	//const char *path="/home23/zhengta/semestre3/UV3.6/system_exploitation/SE_projet/images";
@@ -21,7 +21,7 @@ char* readBankImage(const char *path){
 	else
 	{
 		while(enter=readdir(dir)){
-			printf("filename%d=%s\n",i,enter->d_name);
+			printf("filename%d=%s\n",i,enter->d_name);//afficher les noms des images
 			/*
 			if (){
 
@@ -37,6 +37,8 @@ char* readBankImage(const char *path){
 }
 
 int main(){
-	readBankImage("/home23/zhengta/semestre3/UV3.6/system_exploitation/SE_projet/images");
+	const char * PathInMyPC="/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre 3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/images";
+	const char * PathInSchoolPc="/home23/zhengta/semestre3/UV3.6/system_exploitation/SE_projet/images";
+	readBankImage(PathInMyPC);
 	return 1;
 }
