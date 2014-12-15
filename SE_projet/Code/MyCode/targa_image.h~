@@ -31,7 +31,7 @@ typedef struct image_desc_
 
 void freeImage(image_desc *pDesc);
 
-int readImage(image_desc *pDesc, targa_header *pHead, char * fName);
+int readImage(image_desc *pDesc, targa_header *pHead, char * fName, char * path);
 
 int mallocImage(image_desc *pDesc, uint16_t width, uint16_t height);
 
