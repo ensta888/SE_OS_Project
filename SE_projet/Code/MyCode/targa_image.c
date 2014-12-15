@@ -13,6 +13,7 @@ void freeImage(image_desc *pDesc)
 
 int readImage(image_desc *pDesc, targa_header *pHead, char * fName)
 {
+  printf ("Now is reading image %s\n",fName);
   FILE * fDesc;
   int i;
   targa_header head;
@@ -21,11 +22,12 @@ int readImage(image_desc *pDesc, targa_header *pHead, char * fName)
 
   /* Lecture du header */
   fread(pHead, sizeof(targa_header), 1, fDesc);
+  printf("[mem_targa] Header : %u\n", pHead->idlength);
   head = *pHead; // on le met dans une vari. temporarire pour faciliter l'acces aux champs
 
-/*
+
   printf("[mem_targa] Header : %u %u %u %u %u\n", head.idlength, head.colourmaptype, head.datatypecode, head.width, head.height);
-*/
+
   // Initialisation de la structure image
   pDesc->width = head.width;
   pDesc->height = head.height;
