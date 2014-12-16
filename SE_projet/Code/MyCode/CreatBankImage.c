@@ -1,10 +1,5 @@
 //http://blog.csdn.net/lin_fs/article/details/7335573
-#include<stdio.h>
-#include<sys/types.h>
-#include<dirent.h>
-#include"targa_image.h"
-#include<error.h>
-
+#include"CreatBankImage.h"
 //ListImage * head;
 
 /*
@@ -12,15 +7,6 @@ void insertImageName(ListImage current,){
 	
 	
 }*/
-
-typedef struct _NodeImage{
-	char * path;
-	char  * imageName;
-	int size; //taille du fichier en kilo-octets
-	int height; //height of image
-	int width; // width of image
-	struct _NodeImage *next;
-}NodeImage;
 
 NodeImage * createNodeImage(char * imagename,const char * path){
 	//ajouter le nom complet avec la repertoire
@@ -107,14 +93,18 @@ NodeImage * readBankImage(const char *path){
 	return headListImage;
 }
 
-int main(){
-	const char * PathInMyPC="/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre 3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/images";
-	const char * PathInSchoolPc="/home23/zhengta/semestre3/UV3.6/system_exploitation/SE_projet/images";
-	NodeImage * head=readBankImage(PathInMyPC);
+void printListImage(NodeImage * head){
 	NodeImage * p=head;
 	while(p!=NULL){
 		printf ("filename is %s\n",p->imageName);
 		p=p->next;
 	}
+}
+
+int main(){
+	const char * PathInMyPC="/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre 3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/images";
+	const char * PathInSchoolPc="/home23/zhengta/semestre3/UV3.6/system_exploitation/SE_projet/images";
+	NodeImage * head=readBankImage(PathInMyPC);
+	printListImage(head);
 	return 0;
 }
