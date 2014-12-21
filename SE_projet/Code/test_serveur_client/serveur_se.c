@@ -21,10 +21,10 @@ void print_msg(char *talker, char * chat) {
 void read_header(int sock, char * username) {
 	int loglen ;
 	read(sock, &loglen, sizeof(int));
-	printf ("loglen is %d\n",loglen);
+	//printf ("loglen is %d\n",loglen);
 	read(sock, username, sizeof(char)*loglen);
-	printf ("username is %s\n",username);
-	printf ("read_header finished\n");
+	//printf ("username is %s\n",username);
+	//printf ("read_header finished\n");
 }
 
 int main(int argc, char * argv[])
@@ -86,7 +86,7 @@ int main(int argc, char * argv[])
 	do{
 		c = EOF;
 		read(socket_service, &c, sizeof(char));
-		printf ("%c",c);
+		//printf ("%c",c);
 		*chat = c;
 		chat++;
 		if (c == '\n' || c == EOF){

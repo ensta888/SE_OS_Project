@@ -1,23 +1,12 @@
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <stdio.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <strings.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <signal.h>
-#include <string.h>
-#define MAXTEXT 100
-
-//ip 172.25.2.83
+#include"client_se.h"
+//ip 172.20.10.2
 
 void write_header(int sock, char * username) {
 	int loglen = strlen(username);
-	write(sock, &loglen, 1);
-	write(sock, username, loglen);
-	printf ("Write_header finished!\n");
+	write(sock, &loglen, sizeof(int));
+	//printf ("%d",loglen);
+	write(sock, username, sizeof(char)*loglen);
+	//printf ("%s\n",username);
 }
 
 
@@ -54,15 +43,42 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 
+//begin
 	char *input=(char *) malloc(sizeof(char)*MAXTEXT);
 	const char * acq="acquerir";
+	const char * aff="afficher";
+	const char * quit="quitter";
+	const char * end="\n";
+	//printf ("username is %s\n",username);
 	write_header(sock,username);
 	while(1){
 		scanf("%s",input);
-	
-		if (strcmp(input,acq)){
-			write(sock,acq,sizeof(acq));
+		//printf ("input is %s\n",input);	
+		if (strcmp(input,acq)==0){ //acquerir
+			write(sock,acq,sizeof(char)*strlen(acq));
+			write(sock,end,sizeof(end));
 			printf ("you had demanded acquerir\n");
+			int nb;
+			read(socket, &nb, sizeof(int));
+			if (nb==0 || nb==1)
+				printf("There are %d image\n",nb);
+			else
+				printf ("There are %d images\n",nb);
+		}else{
+			if (strcmp(input,aff)==0){//afficher 
+				write(sock,aff,sizeof(char)*strlen(aff));
+				write(sock,end,sizeof(end));
+				printf ("you had demanded afficher\n");
+				NodeImage * headImg=(NodeImage *)malloc(sizeof(NodeImage));
+				read(socket, headImg, sizeof(NodeImage));
+				printListImage(headImg);
+			}else{
+				if (strcmp(input,quit)==0){ //quitter
+					write(sock,quit,sizeof(quit));
+					write(sock,end,sizeof(end));
+					break;
+				}
+			}
 		}
 	}
 /*

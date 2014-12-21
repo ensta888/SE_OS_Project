@@ -16,9 +16,9 @@
 void write_header(int sock, char * username) {
 	int loglen = strlen(username);
 	write(sock, &loglen, sizeof(int));
-	printf ("%d",loglen);
+	//printf ("%d",loglen);
 	write(sock, username, sizeof(char)*loglen);
-	printf ("%s\n",username);
+	//printf ("%s\n",username);
 }
 
 
@@ -58,11 +58,11 @@ int main(int argc, char * argv[])
 //begin
 	char *input=(char *) malloc(sizeof(char)*MAXTEXT);
 	const char * acq="acquerir";
-	printf ("username is %s\n",username);
+	//printf ("username is %s\n",username);
 	write_header(sock,username);
 	while(1){
 		scanf("%s",input);
-		printf ("input is %s\n",input);	
+		//printf ("input is %s\n",input);	
 		if (strcmp(input,acq)==0){
 			write(sock,acq,sizeof(char)*strlen(acq));
 			const char * end="\n";

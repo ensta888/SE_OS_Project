@@ -4,6 +4,18 @@
 #include"targa_image.h"
 #include<error.h>
 
+
+#ifndef PathInMyPC 
+#define PathInMyPC "/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre 3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/images"
+#endif
+
+#ifndef PathInSchoolPc 
+#define PathInSchoolPc "/home23/zhengta/semestre3/UV3.6/system_exploitation/SE_projet/images"
+#endif
+
+//const char * PathInMyPC="/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre 3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/images";
+//const char * PathInSchoolPc="/home23/zhengta/semestre3/UV3.6/system_exploitation/SE_projet/images";
+
 typedef struct _NodeImage{
 	char * path;
 	char  * imageName;
