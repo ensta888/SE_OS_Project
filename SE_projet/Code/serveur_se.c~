@@ -26,23 +26,47 @@ int countNbOfImage(NodeImage * img){
 	return count;
 }
 
+NodeImage * headImage;//=(NodeImage *)malloc(sizeof(NodeImage))
+
 void handleOfCommand(char *com){
 	printf ("command is %s\n",com);
 	const char * acq="acquerir";
-	const char * aff="afiicher";
+	const char * aff="afficher";
 	const char * quit="quitter";
-	NodeImage * headImg=(NodeImage *)malloc(sizeof(NodeImage));
+	
 	if (strcmp(com,acq)==0){ //acquerir
-		headImg=readBankImage(PathInMyPC);
-		int nb=countNbOfImage(headImg);
+		headImage=(NodeImage *)malloc(sizeof(NodeImage));
+		headImage=readBankImage(PathInMyPC);
+		int nb=countNbOfImage(headImage);
 		printf ("number is %d\n",nb);
 		write(socket_service,&nb,sizeof(int));
 	}else{
 		if (strcmp(com,aff)==0){//afficher
-			if (headImg!=NULL){
-				write(socket_service,headImg,sizeof(NodeImage));
-				printf ("Afficher List\n");
+			NodeImage *current=headImage;
+			const char *endFile="\n";
+			const char *final=EOF;
+			if (headImage!=NULL){
+				//printListImage(headImage);
+				//write(socket_service,headImage,sizeof(NodeImage));
+
+				while(current!=NULL){
+					write(socket_service,current->imageName,sizeof(char)*strlen(current->imageName));
+					if (current->next!=NULL){
+						write(socket_service,endFile,sizeof(char));
+						printf ("endFile is %s\n",endFile);
+					}	
+					else{
+						write(socket_service,final,sizeof(char));
+						printf ("final is %s\n",final);
+					}			
+					printf ("Sent file %s\n",current->imageName);
+					current=current->next;
+				}
+				printf ("Sent file finished!\n");			
+				
+				
 				//printListImage(headImg);
+
 			}else{
 				printf("Bank Image was not created\n");
 			}
@@ -97,14 +121,11 @@ int main(int argc, char * argv[])
 
 	socket_service=accept(socket_RV, (struct sockaddr *)&adresse, &lgadresse);
 	close(socket_RV);
-
 //begin
-
 	char *talker = (char*)malloc(MAXNAME);
 	char *chat =  (char*)malloc(MAXTEXT);
 	char *begchat = chat;
 
-	
 	read_header(socket_service, talker);
 	printf("%s is connected\n", talker);
 	
@@ -116,53 +137,15 @@ int main(int argc, char * argv[])
 		*chat = c;
 		chat++;
 		if (c == '\n' || c == EOF){
+			chat--;
 			*chat = '\0';
 			chat = begchat;
 			printf("message is %s\n",chat);
 			handleOfCommand(chat);
-			//print_msg(talker, chat);
+			
 		}
 	}
 	while (c!=EOF);
-
-/*
-	char c;
-	char *talker = (char*)malloc(MAXNAME);
-	char *chat =  (char*)malloc(MAXTEXT);
-	char *begchat = chat;
-	switch(pidFils=fork()) {
-	case -1:
-		perror("fork");
-		exit(1);
-	case 0:
-
-		read_header(socket_service, talker);
-		printf("%s is connected\n", talker);
-		do{
-			c = EOF;
-			read(socket_service, &c, 1);
-			*chat = c;
-			chat++;
-			if (c == '\n' || c == EOF){
-				*chat = '\0';
-				chat = begchat;
-				print_msg(talker, chat);
-			}
-		}
-		while (c!=EOF);
-		fprintf(stderr,"Cote serveur: fin fils\n");
-		break;
-	default:
-		do{
-			c=getchar();
-			write(socket_service, &c, 1);
-		}
-		while (c!=EOF);
-
-		kill(pidFils, SIGTERM);
-		fprintf(stderr,"Cote serveur: fin pere\n");
-	}
-*/
 	return 0;
 }
 

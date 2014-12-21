@@ -10,6 +10,8 @@
 #include <signal.h>
 #include <string.h>
 #include"CreatBankImage.h"
+
+#define MAXIMAGENAME 50
 #define MAXTEXT 100
 
 void write_header(int sock, char * username);
