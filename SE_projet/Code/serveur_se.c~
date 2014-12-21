@@ -101,8 +101,8 @@ int main(int argc, char * argv[])
 //begin
 
 	char *talker = (char*)malloc(MAXNAME);
-	//char *chat =  (char*)malloc(MAXTEXT);
-	//char *begchat = chat;
+	char *chat =  (char*)malloc(MAXTEXT);
+	char *begchat = chat;
 
 	
 	read_header(socket_service, talker);
@@ -110,11 +110,9 @@ int main(int argc, char * argv[])
 	
 	char c;
 	do{
-		char *chat =  (char*)malloc(MAXTEXT);
-		char *begchat = chat;
 		c = EOF;
 		read(socket_service, &c, sizeof(char));
-		//printf ("%c",c);
+		printf ("%c",c);
 		*chat = c;
 		chat++;
 		if (c == '\n' || c == EOF){
@@ -122,8 +120,6 @@ int main(int argc, char * argv[])
 			chat = begchat;
 			printf("message is %s\n",chat);
 			handleOfCommand(chat);
-			free(chat);
-			free(begchat);
 			//print_msg(talker, chat);
 		}
 	}

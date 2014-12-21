@@ -46,9 +46,10 @@ int main(int argc, char * argv[])
 //begin
 	char *input=(char *) malloc(sizeof(char)*MAXTEXT);
 	const char * acq="acquerir";
-	const char * aff="afiicher";
+	const char * aff="afficher";
 	const char * quit="quitter";
 	const char * end="\n";
+	//printf ("len of end is %d\n",strlen(end));
 	//printf ("username is %s\n",username);
 	write_header(sock,username);
 	while(1){
@@ -56,10 +57,10 @@ int main(int argc, char * argv[])
 		//printf ("input is %s\n",input);	
 		if (strcmp(input,acq)==0){ //acquerir
 			write(sock,acq,sizeof(char)*strlen(acq));
-			write(sock,end,sizeof(end));
+			write(sock,end,sizeof(char)*strlen(end));
 			printf ("you had demanded acquerir\n");
 			int nb;
-			read(socket, &nb, sizeof(int));
+			read(sock, &nb, sizeof(int));
 			if (nb==0 || nb==1)
 				printf("There are %d image\n",nb);
 			else
@@ -67,16 +68,18 @@ int main(int argc, char * argv[])
 		}else{
 			if (strcmp(input,aff)==0){//afficher 
 				write(sock,aff,sizeof(char)*strlen(aff));
-				write(sock,end,sizeof(end));
+				write(sock,end,sizeof(char)*strlen(end));
 				printf ("you had demanded afficher\n");
 				NodeImage * headImg=(NodeImage *)malloc(sizeof(NodeImage));
-				read(socket, headImg, sizeof(NodeImage));
+				read(sock, headImg, sizeof(NodeImage));
 				printListImage(headImg);
 			}else{
 				if (strcmp(input,quit)==0){ //quitter
-					write(sock,quit,sizeof(quit));
-					write(sock,end,sizeof(end));
+					write(sock,quit,sizeof(char)*strlen(quit));
+					write(sock,end,sizeof(char)*strlen(end));
 					break;
+				}else{
+					perror("Command does not exist");
 				}
 			}
 		}

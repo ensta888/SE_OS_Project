@@ -112,10 +112,11 @@ int main(int argc, char * argv[])
 	do{
 		c = EOF;
 		read(socket_service, &c, sizeof(char));
-		//printf ("%c",c);
+		printf ("%c",c);
 		*chat = c;
 		chat++;
 		if (c == '\n' || c == EOF){
+			chat--;
 			*chat = '\0';
 			chat = begchat;
 			printf("message is %s\n",chat);
