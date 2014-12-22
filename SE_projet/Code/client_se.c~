@@ -76,21 +76,26 @@ int main(int argc, char * argv[])
 
 				char *imageName_rv= (char *) malloc (sizeof(char)*MAXIMAGENAME);
 				char *begImg=imageName_rv;
+				char *final="final\n";
 				char c;
 				do{
 					c = EOF;
-					read(sock, &c, 1);
+					read(sock, &c, sizeof(char));
+					printf ("%c",c);
 					*imageName_rv = c;
 					imageName_rv++;
 					if (c == '\n' || c == EOF){
 						*imageName_rv = '\0';
 						imageName_rv = begImg;
-						printf ("filename is %s",imageName_rv);
-						printf ("c is %c\n",c);
+						printf ("imageName is %s\n",imageName_rv);
+						if (strcmp(final,imageName_rv)!=0)
+							printf ("filename is %s",imageName_rv);
+						else
+							break;
 					}
 				}
 				while (c!=EOF);
-
+				printf ("afficher finished!\n");
 				
 			}else{
 				if (strcmp(input,quit)==0){ //quitter

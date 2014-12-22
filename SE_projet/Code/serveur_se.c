@@ -44,27 +44,19 @@ void handleOfCommand(char *com){
 		if (strcmp(com,aff)==0){//afficher
 			NodeImage *current=headImage;
 			const char *endFile="\n";
-			const char *final=EOF;
+			const char *final="final";
 			if (headImage!=NULL){
 				//printListImage(headImage);
 				//write(socket_service,headImage,sizeof(NodeImage));
-
 				while(current!=NULL){
 					write(socket_service,current->imageName,sizeof(char)*strlen(current->imageName));
-					if (current->next!=NULL){
-						write(socket_service,endFile,sizeof(char));
-						printf ("endFile is enter\n");
-					}	
-					else{
-						write(socket_service,final,sizeof(char));
-						printf ("final is %s\n",final);
-					}			
+					write(socket_service,endFile,sizeof(char));	
 					printf ("Sent file %s\n",current->imageName);
 					current=current->next;
 				}
+				write(socket_service,final,sizeof(char)*strlen(final));
+				write(socket_service,endFile,sizeof(char));
 				printf ("Sent file finished!\n");			
-				
-				
 				//printListImage(headImg);
 
 			}else{
