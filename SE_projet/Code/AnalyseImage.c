@@ -1,0 +1,21 @@
+#include<stdio.h>
+#include<string.h>
+#include"targe_image.h"
+
+int[][] histogramme(const char * imageName){
+	targa_header * pHead= (targa_header *) malloc(sizeof(targa_header));
+	image_desc * pDesc=(image_desc *) malloc(sizeof(image_desc));	
+	if (readImage(pDesc,pHead, imageName)!=1){
+		perror("Read file failed!");
+	}
+	int i;
+	int his[3][256];
+	int a,b;
+	memset(his,0,3*256*sizeof(int));
+	for (i=0;i<pDesc->width*pDesc->height;i++){
+		his[0][*(pDesc->pRed+i)]++;
+		his[1][*(pDesc->pGreen+i)]++;
+		his[2][*(pDesc->pBlue+i)]++;	
+	}
+	return his;
+}
