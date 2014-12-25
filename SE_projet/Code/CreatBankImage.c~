@@ -79,13 +79,6 @@ NodeImage * readBankImage(const char *path){
 				}
 				//printf("filename%d=%s\n",i,enter->d_name);//afficher les noms des images
 			}
-			/*
-			if (){
-
-			}
-			myListImage.imageName=enter->d_name;
-			myListImage.
-*/
 			i++;
 		}
 		closedir(dir);

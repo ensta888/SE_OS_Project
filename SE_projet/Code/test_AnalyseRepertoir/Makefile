@@ -1,0 +1,11 @@
+AnalyseRepertoire: AnalyseRepertoire.c CreatBankImage.o targa_image.o
+	gcc AnalyseRepertoire.c CreatBankImage.o targa_image.o -o AnalyseRepertoire
+
+CreatBankImage.o: CreatBankImage.c targa_image.o
+	gcc -c CreatBankImage.c targa_image.o -o CreatBankImage.o
+
+targa_image.o: targa_image.c
+	gcc -c targa_image.c -o targa_image.o
+
+clean:
+	rm *.o;
