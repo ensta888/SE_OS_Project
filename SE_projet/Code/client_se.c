@@ -4,9 +4,7 @@
 void write_header(int sock, char * username) {
 	int loglen = strlen(username);
 	write(sock, &loglen, sizeof(int));
-	//printf ("%d",loglen);
 	write(sock, username, sizeof(char)*loglen);
-	//printf ("%s\n",username);
 }
 
 
@@ -49,31 +47,33 @@ int main(int argc, char * argv[])
 	const char * aff="afficher";
 	const char * quit="quitter";
 	const char * end="\n";
-	//printf ("len of end is %d\n",strlen(end));
-	//printf ("username is %s\n",username);
+
 	write_header(sock,username);
 	while(1){
-		scanf("%s",input);
-		//printf ("input is %s\n",input);	
+		char in;
+		char * startin=input;
+		do{
+			scanf("%c",&in);
+			*input=in;
+			input++;
+		}while(in!='\n');
+		*(input-=1)='\0';
+		input=startin;
+		//scanf("%s",input);	
 		if (strcmp(input,acq)==0){ //acquerir
 			write(sock,acq,sizeof(char)*strlen(acq));
 			write(sock,end,sizeof(char)*strlen(end));
 			printf ("you had demanded acquerir\n");
 			int nb=0;
 			read(sock, &nb, sizeof(int));
-			if (nb==0 || nb==1)
-				printf("There are %d image\n",nb);
-			else
-				printf ("There are %d images\n",nb);
+			if (nb==0 || nb==1) printf("There are %d image\n",nb);
+			else printf ("There are %d images\n",nb);
 		}else{
 			if (strcmp(input,aff)==0){//afficher 
 				write(sock,aff,sizeof(char)*strlen(aff));
 				write(sock,end,sizeof(char));
 				printf ("you had demanded afficher\n");
-				//NodeImage * headImg= (NodeImage *) malloc (sizeof(NodeImage));
-				//read(sock, headImg, sizeof(NodeImage));
-				//printListImage(headImg);
-
+			
 				char *imageName_rv= (char *) malloc (sizeof(char)*MAXIMAGENAME);
 				char *begImg=imageName_rv;
 				char *final="final\n";
@@ -90,53 +90,26 @@ int main(int argc, char * argv[])
 						printf ("imageName is %s",imageName_rv);
 						if (strcmp(final,imageName_rv)!=0)
 							printf ("filename is %s",imageName_rv);
-						else
-							break;
+						else break;
 					}
 				}
 				while (c!=EOF);
 				printf ("afficher finished!\n");
-				
 			}else{
 				if (strcmp(input,quit)==0){ //quitter
 					write(sock,quit,sizeof(char)*strlen(quit));
 					write(sock,end,sizeof(char)*strlen(end));
 					break;
 				}else{
+					//if ()//pour histogramme command is "histogramme filename"
 					perror("Command does not exist");
+					printf ("Attention ! Do not put any space at the end (or before) of your command !\n");
+					printf ("If you need some help, please input \"help\"\n");
 				}
 			}
 		}
 	}
-/*
-	char c;
-	switch(pidFils=fork()) {
 
-	case -1:
-		perror("fork");
-		exit(1);
-	case 0:
-		do{
-			c = EOF;
-			read(sock, &c, 1);
-			putchar(c);
-		}
-		while (c!=EOF);
-		fprintf(stderr,"Cote client: fin fils\n");
-		break;
-	default:
-		// First message sends the name of talking user 
-		write_header(sock, username);
-		do{
-			c=getchar();
-			write(sock, &c, 1);
-		}
-		while (c!=EOF);
-
-		kill(pidFils,SIGTERM);
-		fprintf(stderr,"Cote client: fin pere\n");
-	}
-*/
 	return 0;
 }
 

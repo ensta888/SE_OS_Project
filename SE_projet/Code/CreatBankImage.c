@@ -1,12 +1,5 @@
 //http://blog.csdn.net/lin_fs/article/details/7335573
 #include"CreatBankImage.h"
-//ListImage * head;
-
-/*
-void insertImageName(ListImage current,){
-	
-	
-}*/
 
 NodeImage * createNodeImage(char * imagename,const char * path,int i){
 	//ajouter le nom complet avec la repertoire
@@ -66,7 +59,6 @@ NodeImage * readBankImage(const char *path){
 			char * backImageName2="..";
 
 			if (strcmp(enter->d_name,backImageName1)==0 || strcmp(enter->d_name,backImageName2)==0){
-				//printf("filename%d=%s is the same\n",i,enter->d_name);
 				continue;
 			}else{
 //Ici a l'instant on n'a pas considere si l'image n'a pas une format targa
@@ -78,7 +70,6 @@ NodeImage * readBankImage(const char *path){
 					current->next=newNode;
 					current=current->next;
 				}
-				//printf("filename%d=%s\n",i,enter->d_name);//afficher les noms des images
 				i++;
 			}
 			

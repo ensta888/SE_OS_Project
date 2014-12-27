@@ -8,7 +8,7 @@ void insertImageName(ListImage current,){
 	
 }*/
 
-NodeImage * createNodeImage(char * imagename,const char * path){
+NodeImage * createNodeImage(char * imagename,const char * path,int i){
 	//ajouter le nom complet avec la repertoire
 	char * filename= (char *) malloc(sizeof(char)*255);
 	sprintf(filename,"%s/%s",path,imagename);
@@ -18,6 +18,7 @@ NodeImage * createNodeImage(char * imagename,const char * path){
 	img->imageName=(char *) malloc(sizeof(char)*100);
 	img->path=path;
 	img->imageName=imagename;
+	img->id=i;
 	//printf ("Path is %s\n",img->path);
 	
 
@@ -65,11 +66,10 @@ NodeImage * readBankImage(const char *path){
 			char * backImageName2="..";
 
 			if (strcmp(enter->d_name,backImageName1)==0 || strcmp(enter->d_name,backImageName2)==0){
-				//printf("filename%d=%s is the same\n",i,enter->d_name);
 				continue;
 			}else{
 //Ici a l'instant on n'a pas considere si l'image n'a pas une format targa
-				NodeImage * newNode=createNodeImage(enter->d_name,path);
+				NodeImage * newNode=createNodeImage(enter->d_name,path,i);
 				if (headListImage==NULL){
 					headListImage=newNode;
 					current=headListImage;
@@ -77,9 +77,9 @@ NodeImage * readBankImage(const char *path){
 					current->next=newNode;
 					current=current->next;
 				}
-				//printf("filename%d=%s\n",i,enter->d_name);//afficher les noms des images
+				i++;
 			}
-			i++;
+			
 		}
 		closedir(dir);
 	}
