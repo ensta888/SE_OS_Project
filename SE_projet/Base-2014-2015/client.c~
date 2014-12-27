@@ -137,7 +137,7 @@ void recv_img(int sock, long img_size) {
 
   buffer = startbuffer;
   printf("Copie terminee : lu %d octets , \n", total);
-  int fd = open("output/testsortie.tga", O_CREAT|O_RDWR);
+  int fd = open("testsortie.tga", O_CREAT|O_RDWR);
   write(fd, buffer, img_size); 
   close(fd);
   free(buffer);
