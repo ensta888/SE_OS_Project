@@ -59,7 +59,6 @@ int main(int argc, char * argv[])
 		}while(in!='\n');
 		*(input-=1)='\0';
 		input=startin;
-		printf ("input is %s\n",input);
 		//scanf("%s",input);	
 		if (strcmp(input,acq)==0){ //acquerir
 			write(sock,acq,sizeof(char)*strlen(acq));
