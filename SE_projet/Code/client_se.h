@@ -18,5 +18,12 @@
 #define MAXIMAGENAME 50
 #define MAXTEXT 100
 
+#ifndef M
+#define M 4
+#endif
+
+#ifndef N
+#define N 256
+#endif
 void write_header(int sock, char * username);
 

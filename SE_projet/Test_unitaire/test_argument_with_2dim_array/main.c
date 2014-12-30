@@ -13,7 +13,7 @@ int func(int *array, int m, int n) {
 
 int main(int argc,char** argv) {
     int m=3,n=3,i;
-    int array[][3] = {{1,2,3},{4,5,6},{7,8,9}};
+    int array[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
     func(*array,m,n);
     return 0;
 }

@@ -15,16 +15,18 @@
 
 //const char * PathInMyPC="/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre 3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/images";
 //const char * PathInSchoolPc="/home23/zhengta/semestre3/UV3.6/system_exploitation/SE_projet/images";
-
-typedef struct _NodeImage{
+#ifndef _NodeImage
+#define _NodeImage
+typedef struct NodeImage_{
 	int id;
 	char * path;
 	char  * imageName;
 	int size; //taille du fichier en kilo-octets
 	int height; //height of image
 	int width; // width of image
-	struct _NodeImage *next;
+	struct NodeImage_ *next;
 }NodeImage;
+#endif
 
 NodeImage * createNodeImage(char * imagename,const char * path,int i);
 

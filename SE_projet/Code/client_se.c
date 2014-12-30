@@ -49,8 +49,8 @@ int main(int argc, char * argv[])
 	for(i=0;i<10;i++){
 		argtab[i]=(char *) malloc(sizeof(char)*10);
 	}
-	int * his[256];
-	//int his[5][256];
+
+	int his[M][N];
 	memset(his,0,sizeof(his));
 	const char * acq="acquerir";
 	const char * aff="afficher";
@@ -115,7 +115,7 @@ int main(int argc, char * argv[])
 						}else{
 /*
 							int j;
-							histogramme(argtab[1],his);
+							histogramme(argtab[1],*his,int M,int N);
 							for (i=0;i<3;i++){
 								for (j=0;j<256;j++){
 									printf ("%d ",his[i][j]);
