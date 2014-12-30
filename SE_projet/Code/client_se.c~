@@ -115,7 +115,7 @@ int main(int argc, char * argv[])
 						}else{
 
 							int j;
-							histogramme(argtab[1],*his,int M,int N);
+							histogramme(argtab[1], *his,int M,int N);
 							for (i=0;i<3;i++){
 								for (j=0;j<256;j++){
 									printf ("%d ",his[i][j]);

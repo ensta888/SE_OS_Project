@@ -13,7 +13,7 @@
 #include"CreatBankImage.h"
 #include"ReadWriteInMyWay.h"
 
-//#include"AnalyseImage.h"
+#include"AnalyseImage.h"
 
 #define MAXIMAGENAME 50
 #define MAXTEXT 100

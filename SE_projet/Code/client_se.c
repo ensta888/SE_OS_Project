@@ -113,16 +113,16 @@ int main(int argc, char * argv[])
 							perror("Number of arguments error");
 							//ajouter une fonction d'aide qui afficher des commands utils 								//il faut verfier si tous les commands sont corrects!!!
 						}else{
-/*
+
 							int j;
-							histogramme(argtab[1],*his,int M,int N);
+							histogramme(argtab[1], *his,M,N);
 							for (i=0;i<3;i++){
 								for (j=0;j<256;j++){
 									printf ("%d ",his[i][j]);
 								}
 								printf ("\n");
 							}
-*/
+
 						}
 					}else{
 						perror("Command does not exist");
