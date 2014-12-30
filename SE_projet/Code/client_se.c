@@ -43,6 +43,15 @@ int main(int argc, char * argv[])
 
 //begin
 	char *input=(char *) malloc(sizeof(char)*MAXTEXT);
+	char * argtab[10];
+	int i;
+	int nbOfArgTab;
+	for(i=0;i<10;i++){
+		argtab[i]=(char *) malloc(sizeof(char)*10);
+	}
+	int * his[256];
+	//int his[5][256];
+	memset(his,0,sizeof(his));
 	const char * acq="acquerir";
 	const char * aff="afficher";
 	const char * quit="quitter";
@@ -50,15 +59,7 @@ int main(int argc, char * argv[])
 
 	write_header(sock,username);
 	while(1){
-		char in;
-		char * startin=input;
-		do{
-			scanf("%c",&in);
-			*input=in;
-			input++;
-		}while(in!='\n');
-		*(input-=1)='\0';
-		input=startin;
+		input=readInMyWay(); // ici on enleve les espaces dans la tete et a la fin
 		//scanf("%s",input);	
 		if (strcmp(input,acq)==0){ //acquerir
 			write(sock,acq,sizeof(char)*strlen(acq));
@@ -101,10 +102,33 @@ int main(int argc, char * argv[])
 					write(sock,end,sizeof(char)*strlen(end));
 					break;
 				}else{
-					//if ()//pour histogramme command is "histogramme filename"
-					perror("Command does not exist");
-					printf ("Attention ! Do not put any space at the end (or before) of your command !\n");
-					printf ("If you need some help, please input \"help\"\n");
+/*
+	pour chaque histo de couleur dans l'image, le command est "histogramme+filename+couleur(R ou G ou B)";
+	pour tous les histos dans la meme figure, le command est "histogramme+filename+RGB"(si pour les deux, on remplace "RGB" par "RG");
+	pour les trois rectangles, le command est "histogramme+filename+rect3 "
+*/
+					if (startswith("histogramme",input)){//histogramme filename
+						nbOfArgTab=str_split(input,argtab);
+						if (nbOfArgTab!=3){
+							perror("Number of arguments error");
+							//ajouter une fonction d'aide qui afficher des commands utils 								//il faut verfier si tous les commands sont corrects!!!
+						}else{
+/*
+							int j;
+							histogramme(argtab[1],his);
+							for (i=0;i<3;i++){
+								for (j=0;j<256;j++){
+									printf ("%d ",his[i][j]);
+								}
+								printf ("\n");
+							}
+*/
+						}
+					}else{
+						perror("Command does not exist");
+						printf ("Attention ! Do not put any space at the end (or before) of your command !\n");
+						printf ("If you need some help, please input \"help\"\n");
+					}
 				}
 			}
 		}

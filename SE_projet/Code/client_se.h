@@ -9,7 +9,11 @@
 #include <netdb.h>
 #include <signal.h>
 #include <string.h>
+
 #include"CreatBankImage.h"
+#include"ReadWriteInMyWay.h"
+
+//#include"AnalyseImage.h"
 
 #define MAXIMAGENAME 50
 #define MAXTEXT 100
