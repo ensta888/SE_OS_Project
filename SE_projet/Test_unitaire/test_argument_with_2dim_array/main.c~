@@ -1,0 +1,18 @@
+#include<stdio.h>
+#define M 5
+#define N 5
+
+void add1(int * a[][2]){
+	for ()
+}
+
+int main(){
+	int ** a=(int **)malloc(M*sizeof(int *))；
+	for (i=0;i<M;i++){
+		a[i]=(int *)malloc(N*sizeof(int));
+	}
+	
+	add1(a[][2]);
+	return 0;
+}
+

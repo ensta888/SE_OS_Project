@@ -126,7 +126,7 @@ int main(int argc, char * argv[])
 						}
 					}else{
 						perror("Command does not exist");
-						printf ("Attention ! Do not put any space at the end (or before) of your command !\n");
+						
 						printf ("If you need some help, please input \"help\"\n");
 					}
 				}
