@@ -65,16 +65,36 @@ void handleOfCommand(char *com){
 			}else{
 				if (startswith("histogramme",com)){
 					char * arg=convertirString(com);
-					printf ("arg is %s\n",arg);
 					int nbarg;
 					char * argtab[10];
 					int i;
+					int his[M][N];
 					for(i=0;i<10;i++){
 						argtab[i]=(char *) malloc(sizeof(char)*10);
 					}
 					nbarg=str_split(arg,argtab);
-					/*for (i=0;i<nbarg;i++){
-						printf ("arg %d is %s\n",i,argtab[i]);
+					printf ("argtab[1] is %s\n",argtab[1]);
+					printf ("head image name is %s\n",headImage->imageName);
+					printf ("head image name is %s\n",headImage->path);
+					char *hisimg=(char *)malloc(sizeof(char)*200);					
+					sprintf(hisimg,"%s/%s",headImage->path,argtab[1]);
+					printf ("filename is %s\n",hisimg);
+					histogramme(hisimg,* his,M,N);
+					int j;
+					for (i=0;i<M;i++){
+						for (j=0;j<N;j++){
+							printf ("%d ",his[i][j]);
+						}
+						printf ("\n");
+					}
+					/*NodeImage * hisimg=findNodeImage(argtab[1], headImage);
+					if ( hisimg==NULL){
+						printf ("There is not such an iamge\n");
+					}else{
+						char *FileName;
+						sprintf(FileName,"%s/%s",hisimg->path,hisimg->imageName);
+						printf("filename is %s\n",FileName);
+						//histogramme(const char * imageName,int * his,int m,int n)
 					}*/
 					
 				}

@@ -21,4 +21,4 @@ void read_header(int sock, char * username);
 
 int conutNbOfImage(NodeImage * img);
 
-void handleOfCommand(const char *com);
+void handleOfCommand(char *com);

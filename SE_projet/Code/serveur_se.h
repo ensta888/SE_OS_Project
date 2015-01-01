@@ -13,6 +13,14 @@
 #define MAXNAME 10
 #define MAXTEXT 100
 
+#ifndef M
+#define M 5
+#endif
+
+#ifndef N
+#define N 256
+#endif
+
 int socket_RV, socket_service;
 
 void print_msg(char *talker, char * chat);

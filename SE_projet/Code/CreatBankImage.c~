@@ -1,12 +1,18 @@
 //http://blog.csdn.net/lin_fs/article/details/7335573
 #include"CreatBankImage.h"
-//ListImage * head;
 
-/*
-void insertImageName(ListImage current,){
-	
-	
-}*/
+NodeImage * findNodeImage(char *imagename, NodeImage * head){
+	NodeImage * current=head;
+	while(current!=NULL){
+		printf ("current image name is %s\n",current->imageName);
+		if(strcmp(imagename,current->imageName)==0){
+					
+			return  current;
+		}
+		current=current->next;
+	}
+	return NULL;
+}
 
 NodeImage * createNodeImage(char * imagename,const char * path,int i){
 	//ajouter le nom complet avec la repertoire

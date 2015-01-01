@@ -1,8 +1,8 @@
 default: cliser
 
 cliser: client_se.c serveur_se.c CreatBankImage.o  ReadWriteInMyWay.o strhelpers.o targa_image.o AnalyseImage.o
-	gcc  -g client_se.c  targa_image.o CreatBankImage.o  ReadWriteInMyWay.o strhelpers.o AnalyseImage.o -o c
-	gcc  -g serveur_se.c targa_image.o CreatBankImage.o  strhelpers.o -o s
+	gcc  -g client_se.c  targa_image.o CreatBankImage.o  ReadWriteInMyWay.o strhelpers.o -o c
+	gcc  -g serveur_se.c targa_image.o CreatBankImage.o  strhelpers.o  AnalyseImage.o -o s
 
 
 strhelpers.o: strhelpers.c

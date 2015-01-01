@@ -17,16 +17,18 @@
 //const char * PathInSchoolPc="/home23/zhengta/semestre3/UV3.6/system_exploitation/SE_projet/images";
 #ifndef _NodeImage
 #define _NodeImage
-typedef struct _NodeImage{
+typedef struct NodeImage_{
 	int id;
 	char * path;
 	char  * imageName;
 	int size; //taille du fichier en kilo-octets
 	int height; //height of image
 	int width; // width of image
-	struct _NodeImage *next;
+	struct NodeImage_ *next;
 }NodeImage;
 #endif
+
+NodeImage * findNodeImage(char *imagename, NodeImage * head);
 
 NodeImage * createNodeImage(char * imagename,const char * path,int i);
 
