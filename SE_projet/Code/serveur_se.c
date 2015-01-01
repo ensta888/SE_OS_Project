@@ -30,18 +30,15 @@ NodeImage * headImage;//=(NodeImage *)malloc(sizeof(NodeImage))
 
 void handleOfCommand(char *com){
 	printf ("command is %s\n",com);
-	const char * acq="acquerir";
-	const char * aff="afficher";
-	const char * quit="quitter";
 	
-	if (strcmp(com,acq)==0){ //acquerir
+	if (strcmp(com,"acquerir")==0){ //acquerir
 		headImage=(NodeImage *)malloc(sizeof(NodeImage));
 		headImage=readBankImage(PathInMyPC);
 		int nb=countNbOfImage(headImage);
 		printf ("number is %d\n",nb);
 		write(socket_service,&nb,sizeof(int));
 	}else{
-		if (strcmp(com,aff)==0){//afficher
+		if (strcmp(com,"afficher")==0){//afficher
 			NodeImage *current=headImage;
 			const char *endFile="\n";
 			const char *final="final";
@@ -63,8 +60,22 @@ void handleOfCommand(char *com){
 				printf("Bank Image was not created\n");
 			}
 		}else{
-			if (strcmp(com,quit)==0){//quitter
+			if (strcmp(com,"quitter")==0){//quitter
 				exit(1);
+			}else{
+				if (startswith("histogramme",com)){
+					int nbarg;
+					char * Argtab[10];
+					int i;
+					for(i=0;i<10;i++){
+						Argtab[i]=(char *) malloc(sizeof(char)*10);
+					}
+					write(socket_service,&nbarg,sizeof(int));
+					for (i=1;i<nbarg;i++){
+						read_header(socket_service,Argtab[i]);
+					}	
+					//read_header
+				}
 			}
 		}
 	}

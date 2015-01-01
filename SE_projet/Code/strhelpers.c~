@@ -2,7 +2,7 @@
 
 /* Split the string 'string' into an array argtab of strings, 
    using the space delimiter */
-int str_split(char * string, char * argtab[]) {
+int str_split(char * string, char * argtab[],char Symbo) {
   int i = 0;
   char seps[]=" ";
   char * token;

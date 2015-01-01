@@ -52,16 +52,17 @@ int main(int argc, char * argv[])
 
 	int his[M][N];
 	memset(his,0,sizeof(his));
-	const char * acq="acquerir";
 	const char * aff="afficher";
+	const char * acq="acquerir";
 	const char * quit="quitter";
+	const char *histo="histogarmme";
 	const char * end="\n";
 
 	write_header(sock,username);
 	while(1){
 		input=readInMyWay(); // ici on enleve les espaces dans la tete et a la fin
 		//scanf("%s",input);	
-		if (strcmp(input,acq)==0){ //acquerir
+		if (strcmp(input,"acquerir")==0){ //acquerir
 			write(sock,acq,sizeof(char)*strlen(acq));
 			write(sock,end,sizeof(char)*strlen(end));
 			printf ("you had demanded acquerir\n");
@@ -70,7 +71,7 @@ int main(int argc, char * argv[])
 			if (nb==0 || nb==1) printf("There are %d image\n",nb);
 			else printf ("There are %d images\n",nb);
 		}else{
-			if (strcmp(input,aff)==0){//afficher 
+			if (strcmp(input,"afficher")==0){//afficher 
 				write(sock,aff,sizeof(char)*strlen(aff));
 				write(sock,end,sizeof(char));
 				printf ("you had demanded afficher\n");
@@ -97,7 +98,7 @@ int main(int argc, char * argv[])
 				while (c!=EOF);
 				printf ("afficher finished!\n");
 			}else{
-				if (strcmp(input,quit)==0){ //quitter
+				if (strcmp(input,"quitter")==0){ //quitter
 					write(sock,quit,sizeof(char)*strlen(quit));
 					write(sock,end,sizeof(char)*strlen(end));
 					break;
@@ -108,12 +109,19 @@ int main(int argc, char * argv[])
 	pour les trois rectangles, le command est "histogramme+filename+rect3 "
 */
 					if (startswith("histogramme",input)){//histogramme filename
+						char *input_origin=input;
 						nbOfArgTab=str_split(input,argtab);
 						if (nbOfArgTab!=3){
 							perror("Number of arguments error");
 							//ajouter une fonction d'aide qui afficher des commands utils 								//il faut verfier si tous les commands sont corrects!!!
-						}else{
-
+						}else{	
+							write(sock,histo,sizeof(char)*strlen(histo));
+							write(sock,end,sizeof(char)*strlen(end));
+							write(sock,&nbOfArgTab,sizeof(int));
+							for (i=1;i<nbOfArgTab;i++){
+								write_header(sock,argtab[i]);
+							}
+							/*
 							int j;
 							histogramme(argtab[1], *his,M,N);
 							for (i=0;i<3;i++){
@@ -121,7 +129,7 @@ int main(int argc, char * argv[])
 									printf ("%d ",his[i][j]);
 								}
 								printf ("\n");
-							}
+							}*/
 
 						}
 					}else{
