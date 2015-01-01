@@ -87,16 +87,9 @@ void handleOfCommand(char *com){
 						}
 						printf ("\n");
 					}
-					/*NodeImage * hisimg=findNodeImage(argtab[1], headImage);
-					if ( hisimg==NULL){
-						printf ("There is not such an iamge\n");
-					}else{
-						char *FileName;
-						sprintf(FileName,"%s/%s",hisimg->path,hisimg->imageName);
-						printf("filename is %s\n",FileName);
-						//histogramme(const char * imageName,int * his,int m,int n)
-					}*/
-					
+				}
+				else{
+					if (startswith("classifier",com)){}
 				}
 			}
 		}

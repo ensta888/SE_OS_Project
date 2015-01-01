@@ -41,7 +41,7 @@ void diviserRepertoire(const char * PathR){
 	int set[MAXSIZEOFSET];
 	memset(set,0,sizeof(set));
 	int count=0;	
-	int i,j;
+	int i,j,maxi=0;
 	while(1){
 		int size;
 		scanf("%d",&size);
@@ -49,16 +49,18 @@ void diviserRepertoire(const char * PathR){
 		else{
 			set[count]=size;
 			count++;
-		}		
-		//sort montant
-		for (i=0;i<count;i++){
-			for (j=i;j<count;j++){
-				if (set[i]>set[j]){
-					swap(&set[i],&set[j]);
-				}
+		}	
+		size > maxi ? maxi=size : maxi;
+	}	
+	//sort montant
+	for (i=0;i<count;i++){
+		for (j=i;j<count;j++){
+			if (set[i]>set[j]){
+				swap(&set[i],&set[j]);
 			}
 		}
 	}
+	
 	set[count]=MaxSize;
 	p=headImage;
 	int num[count+1];
@@ -66,13 +68,22 @@ void diviserRepertoire(const char * PathR){
 	int ans;
 	while(p!=NULL){
 		ans=find(p,set,count);
-		printf ("ans is %d\n",ans);
+		//printf ("ans is %d\n",ans);
 		num[ans]++;		
 		p=p->next;	
 	}
-
-	for (i=0;i<=count;i++){
-		printf ("In the set < %d, there are %d images\n",set[i], num[i]);
+	printf ("maxi is %d\n",maxi);
+	for (i=0;i<count;i++){
+		if(i==0)
+			printf ("In the set < %d, there are %d images\n",set[i], num[i]);
+		else{
+			if (i!=count)
+				printf ("In the %d < set < %d, there are %d images\n",set[i-1],set[i], num[i]);
+			else{
+				set[i]>maxi?set[i]=set[i]:maxi;
+				printf ("In the %d < set < %d, there are %d images\n",set[i-1],set[i], num[i]);
+			}
+		}
 	}
 	
 		

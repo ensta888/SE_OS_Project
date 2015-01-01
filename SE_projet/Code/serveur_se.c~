@@ -80,8 +80,9 @@ void handleOfCommand(char *com){
 					sprintf(hisimg,"%s/%s",headImage->path,argtab[1]);
 					printf ("filename is %s\n",hisimg);
 					histogramme(hisimg,* his,M,N);
-					for (i=0;i<m;i++){
-						for (j=0;j<n;j++){
+					int j;
+					for (i=0;i<M;i++){
+						for (j=0;j<N;j++){
 							printf ("%d ",his[i][j]);
 						}
 						printf ("\n");
