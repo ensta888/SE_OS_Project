@@ -109,18 +109,16 @@ int main(int argc, char * argv[])
 	pour les trois rectangles, le command est "histogramme+filename+rect3 "
 */
 					if (startswith("histogramme",input)){//histogramme filename
-						char *input_origin=input;
-						nbOfArgTab=str_split(input,argtab," ");
+						char *input_final=(char *)malloc(sizeof(char)*100);
+						nbOfArgTab=str_split(input,argtab);
 						if (nbOfArgTab!=3){
 							perror("Number of arguments error");
 							//ajouter une fonction d'aide qui afficher des commands utils 								//il faut verfier si tous les commands sont corrects!!!
 						}else{	
-							write(sock,histo,sizeof(char)*strlen(histo));
+							ToStringHis(nbOfArgTab,argtab,input_final);
+							printf ("input final is %s\n",input_final);
+							write(sock,input_final,sizeof(char)*strlen(input_final));
 							write(sock,end,sizeof(char)*strlen(end));
-							write(sock,&nbOfArgTab,sizeof(int));
-							for (i=1;i<nbOfArgTab;i++){
-								write_header(sock,argtab[i]);
-							}
 							/*
 							int j;
 							histogramme(argtab[1], *his,M,N);

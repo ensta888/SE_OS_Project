@@ -64,17 +64,19 @@ void handleOfCommand(char *com){
 				exit(1);
 			}else{
 				if (startswith("histogramme",com)){
+					char * arg=convertirString(com);
+					printf ("arg is %s\n",arg);
 					int nbarg;
-					char * Argtab[10];
+					char * argtab[10];
 					int i;
 					for(i=0;i<10;i++){
-						Argtab[i]=(char *) malloc(sizeof(char)*10);
+						argtab[i]=(char *) malloc(sizeof(char)*10);
 					}
-					write(socket_service,&nbarg,sizeof(int));
-					for (i=1;i<nbarg;i++){
-						read_header(socket_service,Argtab[i]);
-					}	
-					//read_header
+					nbarg=str_split(arg,argtab);
+					/*for (i=0;i<nbarg;i++){
+						printf ("arg %d is %s\n",i,argtab[i]);
+					}*/
+					
 				}
 			}
 		}

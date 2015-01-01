@@ -14,7 +14,7 @@
    Last element of argtab must be NULL, to indicate the end of split
    @return the number of elements in argtab.
 */
-int str_split(char * string, char * argtab[], char Symbo);
+int str_split(char * string, char * argtab[]);
 
 
 /* 
@@ -25,3 +25,5 @@ int str_split(char * string, char * argtab[], char Symbo);
    are null.
 */
 int startswith(char *prefix, char*str);
+
+char * ToStringHis(int nbOfArgTab,char *argtab[]);

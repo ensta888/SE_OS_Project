@@ -25,3 +25,7 @@ int str_split(char * string, char * argtab[]);
    are null.
 */
 int startswith(char *prefix, char*str);
+
+char * ToStringHis(int nbOfArgTab,char *argtab[]);
+
+char * convertirString(char *str);
