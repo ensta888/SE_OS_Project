@@ -123,12 +123,12 @@ int main(int argc, char * argv[])
 						}
 					}else{
 /*
-	pour classifier le repertoire des images selon les tailles des images, le command est "classifier+path+size+size(nb)"
+	pour classifier le repertoire des images selon les tailles des images, le command est "classifier+size+size(nb)"
 */
 						if (startswith("classifier",input)){//classifier+path+size+size(nb)
 							char *input_final=(char *)malloc(sizeof(char)*100);
 							nbOfArgTab=str_split(input,argtab);
-							if (nbOfArgTab!=4){
+							if (nbOfArgTab!<3){
 								perror("Number of arguments error");
 								//ajouter une fonction d'aide qui afficher des commands utils 								//il faut verfier si tous les commands sont corrects!!!
 							}else{	
@@ -137,10 +137,10 @@ int main(int argc, char * argv[])
 								write(sock,input_final,sizeof(char)*strlen(input_final));
 								write(sock,end,sizeof(char)*strlen(end));
 							}
+						}else{
+							perror("Command does not exist");
+							printf ("If you need some help, please input \"help\"\n");
 						}
-						perror("Command does not exist");
-						
-						printf ("If you need some help, please input \"help\"\n");
 					}
 				}
 			}

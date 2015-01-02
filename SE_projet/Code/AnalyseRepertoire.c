@@ -24,7 +24,7 @@ int  find(NodeImage * p, int * set,int count){
 }
 
 
-void diviserRepertoire(const char * PathR){
+void diviserRepertoire(const char * PathR,int * set,int nbset){
 	NodeImage* headImage=readBankImage(PathR);
 	NodeImage* p=headImage;
 	int MinSize=MAXSIZE;
@@ -37,33 +37,27 @@ void diviserRepertoire(const char * PathR){
 		p=p->next;
 	}
 	printf ("The Maximum size is %d, and the minimum size is %d\n",MaxSize,MinSize);
-	printf ("Please input the size and terminted with -1\n");
-	int set[MAXSIZEOFSET];
-	memset(set,0,sizeof(set));
-	int count=0;	
+	
+
+	int count=nbset;	
 	int i,j,maxi=0;
-	while(1){
-		int size;
-		scanf("%d",&size);
-		if (size==-1){break;}
-		else{
-			set[count]=size;
-			count++;
-		}	
-		size > maxi ? maxi=size : maxi;
-	}	
+	
+	for(i=0;i<nbset;i++){
+		*(set+i) > maxi ? maxi=*(set+i) : maxi;
+	}
+
 	//sort montant
 	for (i=0;i<count;i++){
 		for (j=i;j<count;j++){
-			if (set[i]>set[j]){
-				swap(&set[i],&set[j]);
+			if (*(set+i)>*(set+j)){
+				swap(set+i,set+j);
 			}
 		}
 	}
 	
-	set[count]=MaxSize;
+	*(set+nbset)=MaxSize;
 	p=headImage;
-	int num[count+1];
+	int num[nbset+1];
 	memset(num,0,sizeof(num));
 	int ans;
 	while(p!=NULL){
@@ -72,16 +66,16 @@ void diviserRepertoire(const char * PathR){
 		num[ans]++;		
 		p=p->next;	
 	}
-	printf ("maxi is %d\n",maxi);
-	for (i=0;i<count;i++){
+	//printf ("maxi is %d\n",maxi);
+	for (i=0;i<=count;i++){
 		if(i==0)
-			printf ("In the set < %d, there are %d images\n",set[i], num[i]);
+			printf ("In the set < %d, there are %d images\n",*(set+i), num[i]);
 		else{
 			if (i!=count)
-				printf ("In the %d < set < %d, there are %d images\n",set[i-1],set[i], num[i]);
+				printf ("In the %d < set < %d, there are %d images\n",*(set+i-1),*(set+i), num[i]);
 			else{
 				set[i]>maxi?set[i]=set[i]:maxi;
-				printf ("In the %d < set < %d, there are %d images\n",set[i-1],set[i], num[i]);
+				printf ("In the %d < set < %d, there are %d images\n",*(set+i-1),*(set+i), num[i]);
 			}
 		}
 	}
@@ -89,7 +83,9 @@ void diviserRepertoire(const char * PathR){
 		
 }
 
+/*
+
 int main(){
 	diviserRepertoire(PathInMyPC);
 	return 0;
-}
+}*/

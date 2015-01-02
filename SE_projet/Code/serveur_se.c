@@ -64,32 +64,46 @@ void handleOfCommand(char *com){
 				exit(1);
 			}else{
 				if (startswith("histogramme",com)){
-					char * arg=convertirString(com);
-					int nbarg;
-					char * argtab[10];
+					char * arg_his=convertirString(com);
+					int nbarg_his;
+					char * argtab_his[10];
 					int i;
-					int his[M][N];
+					int his_img[M][N];
 					for(i=0;i<10;i++){
-						argtab[i]=(char *) malloc(sizeof(char)*10);
+						argtab_his[i]=(char *) malloc(sizeof(char)*10);
 					}
-					nbarg=str_split(arg,argtab);
-					printf ("argtab[1] is %s\n",argtab[1]);
-					printf ("head image name is %s\n",headImage->imageName);
-					printf ("head image name is %s\n",headImage->path);
+					nbarg_his=str_split(arg_his,argtab_his);
+					//printf ("argtab[1] is %s\n",argtab[1]);
+					//printf ("head image name is %s\n",headImage->imageName);
+					//printf ("head image name is %s\n",headImage->path);
 					char *hisimg=(char *)malloc(sizeof(char)*200);					
-					sprintf(hisimg,"%s/%s",headImage->path,argtab[1]);
+					sprintf(hisimg,"%s/%s",headImage->path,argtab_his[1]);
 					printf ("filename is %s\n",hisimg);
-					histogramme(hisimg,* his,M,N);
+					histogramme(hisimg,* his_img,M,N);
 					int j;
 					for (i=0;i<M;i++){
 						for (j=0;j<N;j++){
-							printf ("%d ",his[i][j]);
+							printf ("%d ",his_img[i][j]);
 						}
 						printf ("\n");
 					}
 				}
 				else{
-					if (startswith("classifier",com)){}
+					if (startswith("classifier",com)){
+						char * arg_class=convertirString(com);
+						int nbarg_class;
+						char * argtab_class[10];
+						int i;
+						int his[M][N];
+						int set[10];
+						for(i=0;i<10;i++){
+							argtab_class[i]=(char *) malloc(sizeof(char)*10);
+						}	
+						nbarg_class=str_split(arg_class,argtab_class);	
+						argStringToNb(nbarg_class,argtab_class,set);
+						printf ("set is %d\n",set[0]);
+						diviserRepertoire(headImage->path,set,nbarg_class-2);			
+					}
 				}
 			}
 		}

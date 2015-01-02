@@ -1,9 +1,12 @@
 default: cliser
 
-cliser: client_se.c serveur_se.c CreatBankImage.o  ReadWriteInMyWay.o strhelpers.o targa_image.o AnalyseImage.o
+cliser: client_se.c serveur_se.c CreatBankImage.o  ReadWriteInMyWay.o strhelpers.o targa_image.o AnalyseImage.o AnalyseRepertoire.o
 	gcc  -g client_se.c  targa_image.o CreatBankImage.o  ReadWriteInMyWay.o strhelpers.o -o c
-	gcc  -g serveur_se.c targa_image.o CreatBankImage.o  strhelpers.o  AnalyseImage.o -o s
+	gcc  -g serveur_se.c targa_image.o CreatBankImage.o  strhelpers.o  AnalyseImage.o AnalyseRepertoire.o -o s
 
+
+AnalyseRepertoire.o: AnalyseRepertoire.c
+	gcc -g -c AnalyseRepertoire.c -o AnalyseRepertoire.o
 
 strhelpers.o: strhelpers.c
 	gcc -g -c strhelpers.c -o strhelpers.o
