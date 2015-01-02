@@ -2,7 +2,7 @@
 
 int main(){
 	char * fName;
-	fName=/projet_os/SE_OS_Project/SE_projet/images/cerf.tga;
+	fName=~/projet_os/SE_OS_Project/SE_projet/images/cerf.tga;
 	image_desc iDesc;
 	targa_header head;
 	

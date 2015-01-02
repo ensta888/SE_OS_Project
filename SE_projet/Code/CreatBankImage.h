@@ -4,9 +4,14 @@
 #include"targa_image.h"
 #include<error.h>
 
+/*
+#ifndef PathGuoxi
+#define PathGuoxi  ????
+#endif
+*/
 
 #ifndef PathInMyPC 
-#define PathInMyPC "/home/xinrui/projet_os/SE_OS_Project/SE_projet/images"
+#define PathInMyPC "/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre_3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/images"
 #endif
 
 #ifndef PathInSchoolPc 
