@@ -1,10 +1,7 @@
-#include<stdio.h>
-#include<string.h>
-#include"CreatBankImage.h"
 
-#define MAXSIZEOFSET 1000
-#define MINSIZE -1
-#define MAXSIZE 100000000
+#include"AnalyseRepertoire.h"
+
+
 
 void swap(int *a,int *b){
 	int t;
@@ -24,7 +21,7 @@ int  find(NodeImage * p, int * set,int count){
 }
 
 
-void diviserRepertoire(const char * PathR,int * set,int nbset){
+void diviserRepertoire(const char * PathR,int * set,int * num,int nbset){
 	NodeImage* headImage=readBankImage(PathR);
 	NodeImage* p=headImage;
 	int MinSize=MAXSIZE;
@@ -54,33 +51,40 @@ void diviserRepertoire(const char * PathR,int * set,int nbset){
 			}
 		}
 	}
-	
-	*(set+nbset)=MaxSize;
+	if (*(set+nbset-1)<MaxSize){
+		*(set+nbset)=MaxSize;
+	}else{
+		*(set+nbset)=MAXSIZE;
+	}
 	p=headImage;
-	int num[nbset+1];
-	memset(num,0,sizeof(num));
+	
+	for (i=0;i<nbset+1;i++){
+		*(num+i)=0;
+	}
 	int ans;
 	while(p!=NULL){
 		ans=find(p,set,count);
 		//printf ("ans is %d\n",ans);
-		num[ans]++;		
+		*(num+ans)+=1;		
 		p=p->next;	
 	}
 	//printf ("maxi is %d\n",maxi);
-	for (i=0;i<=count;i++){
-		if(i==0)
-			printf ("In the set < %d, there are %d images\n",*(set+i), num[i]);
-		else{
-			if (i!=count)
-				printf ("In the %d < set < %d, there are %d images\n",*(set+i-1),*(set+i), num[i]);
-			else{
-				set[i]>maxi?set[i]=set[i]:maxi;
-				printf ("In the %d < set < %d, there are %d images\n",*(set+i-1),*(set+i), num[i]);
-			}
-		}
-	}
+	
 	
 		
+}
+
+void afficherSizeDivise(int count,int *set,int *num){
+	int i;
+	for (i=0;i<count;i++){
+		if(i==0)
+			printf ("In the set < %d, there are %d images\n",*(set+i), *(num+i));
+		else{
+			
+			printf ("In the %d < set < %d, there are %d images\n",*(set+i-1),*(set+i), *(num+i));
+			
+		}
+	}
 }
 
 /*

@@ -128,14 +128,26 @@ int main(int argc, char * argv[])
 						if (startswith("classifier",input)){//classifier+path+size+size(nb)
 							char *input_final=(char *)malloc(sizeof(char)*100);
 							nbOfArgTab=str_split(input,argtab);
-							if (nbOfArgTab!<3){
+							if (nbOfArgTab<3){
 								perror("Number of arguments error");
 								//ajouter une fonction d'aide qui afficher des commands utils 								//il faut verfier si tous les commands sont corrects!!!
 							}else{	
 								input_final=ToStringHis(nbOfArgTab,argtab);
-								printf ("input final is %s\n",input_final);
+								//printf ("input final is %s\n",input_final);
 								write(sock,input_final,sizeof(char)*strlen(input_final));
 								write(sock,end,sizeof(char)*strlen(end));
+								int len;
+								int set[11],num[11];
+								read(sock,&len,sizeof(int));
+								for (i=0;i<len;i++){
+									read(sock,&set[i],sizeof(int));
+									read(sock,&num[i],sizeof(int));
+									
+								}
+								for (i=0;i<len;i++){
+									printf ("set is %d, num is %d\n",set[i],num[i]);
+								}
+								afficherSizeDivise(len,set,num);
 							}
 						}else{
 							perror("Command does not exist");

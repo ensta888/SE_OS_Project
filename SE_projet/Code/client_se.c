@@ -133,9 +133,19 @@ int main(int argc, char * argv[])
 								//ajouter une fonction d'aide qui afficher des commands utils 								//il faut verfier si tous les commands sont corrects!!!
 							}else{	
 								input_final=ToStringHis(nbOfArgTab,argtab);
-								printf ("input final is %s\n",input_final);
+								//printf ("input final is %s\n",input_final);
 								write(sock,input_final,sizeof(char)*strlen(input_final));
 								write(sock,end,sizeof(char)*strlen(end));
+								int len;
+								int set[11],num[11];
+								read(sock,&len,sizeof(int));
+								for (i=0;i<len;i++){
+									read(sock,&set[i],sizeof(int));
+									read(sock,&num[i],sizeof(int));
+									
+								}
+								
+								afficherSizeDivise(len,set,num);
 							}
 						}else{
 							perror("Command does not exist");

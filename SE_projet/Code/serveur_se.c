@@ -95,14 +95,24 @@ void handleOfCommand(char *com){
 						char * argtab_class[10];
 						int i;
 						int his[M][N];
-						int set[10];
+						int set[11];
+						int num[11];
 						for(i=0;i<10;i++){
 							argtab_class[i]=(char *) malloc(sizeof(char)*10);
 						}	
 						nbarg_class=str_split(arg_class,argtab_class);	
-						argStringToNb(nbarg_class,argtab_class,set);
-						printf ("set is %d\n",set[0]);
-						diviserRepertoire(headImage->path,set,nbarg_class-2);			
+						if (strcmp(argtab_class[1],"size")==0){
+							argStringToNb(nbarg_class,argtab_class,set);
+							diviserRepertoire(headImage->path,set,num,nbarg_class-2);
+						}	
+						//length of set and num nbarg_class-1
+						int len=nbarg_class-1;
+						write(socket_service,&len,sizeof(int));
+						for (i=0;i<len;i++){
+							printf ("set is %d, num is %d\n",set[i],num[i]);
+							write(socket_service,&set[i],sizeof(int));
+							write(socket_service,&num[i],sizeof(int));
+						}
 					}
 				}
 			}

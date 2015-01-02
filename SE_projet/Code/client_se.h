@@ -14,6 +14,7 @@
 #include"ReadWriteInMyWay.h"
 
 #include"AnalyseImage.h"
+#include"strhelpers.h"
 
 #define MAXIMAGENAME 50
 #define MAXTEXT 100
@@ -25,5 +26,6 @@
 #ifndef N
 #define N 256
 #endif
+
 void write_header(int sock, char * username);
 
