@@ -26,6 +26,8 @@ int str_split(char * string, char * argtab[]);
 */
 int startswith(char *prefix, char*str);
 
+void argStringToNb(int nb,char * argtab_class[],int *set);
+
 char * ToStringHis(int nbOfArgTab,char *argtab[]);
 
 char * convertirString(char *str);

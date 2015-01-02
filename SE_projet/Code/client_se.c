@@ -119,21 +119,28 @@ int main(int argc, char * argv[])
 							printf ("input final is %s\n",input_final);
 							write(sock,input_final,sizeof(char)*strlen(input_final));
 							write(sock,end,sizeof(char)*strlen(end));
-							/*
-							int j;
-							histogramme(argtab[1], *his,M,N);
-							for (i=0;i<3;i++){
-								for (j=0;j<256;j++){
-									printf ("%d ",his[i][j]);
-								}
-								printf ("\n");
-							}*/
 
 						}
 					}else{
-						perror("Command does not exist");
-						
-						printf ("If you need some help, please input \"help\"\n");
+/*
+	pour classifier le repertoire des images selon les tailles des images, le command est "classifier+size+size(nb)"
+*/
+						if (startswith("classifier",input)){//classifier+path+size+size(nb)
+							char *input_final=(char *)malloc(sizeof(char)*100);
+							nbOfArgTab=str_split(input,argtab);
+							if (nbOfArgTab<3){
+								perror("Number of arguments error");
+								//ajouter une fonction d'aide qui afficher des commands utils 								//il faut verfier si tous les commands sont corrects!!!
+							}else{	
+								input_final=ToStringHis(nbOfArgTab,argtab);
+								printf ("input final is %s\n",input_final);
+								write(sock,input_final,sizeof(char)*strlen(input_final));
+								write(sock,end,sizeof(char)*strlen(end));
+							}
+						}else{
+							perror("Command does not exist");
+							printf ("If you need some help, please input \"help\"\n");
+						}
 					}
 				}
 			}
