@@ -32,31 +32,31 @@ void argStringToNb(int nb,char * argtab_class[],int *set){
 	int i,j,a,sum;
 	for (i=2;i<nb;i++){
 		sum=0;
-		printf ("argtab is %s\n",argtab_class[i]);
+		//printf ("argtab is %s\n",argtab_class[i]);
 		int len=strlen(argtab_class[i]);
-		printf ("len is %d\n",len);
+		//printf ("len is %d\n",len);
 		for (j=0;j<len;j++){
 			char b=*(argtab_class[i]+j);
-			printf ("b is %c\n",b);
+			//printf ("b is %c\n",b);
 			a=(int) (b)-48;
-			printf ("a is %d\n");
+			//printf ("a is %d\n");
 			sum=sum*10+a;		
 		}
 		*(set+i-2)=sum;
-		printf ("set %d is %d\n",i-2,*(set+i-2));
+		//printf ("set %d is %d\n",i-2,*(set+i-2));
 	}
 }
 
 char * ToStringHis(int nbOfArgTab,char *argtab[]){
 	int i;	
 	char *input_final=argtab[0];
-	printf ("input final is %s\n",input_final);
+	//printf ("input final is %s\n",input_final);
 	for (i=1;i<nbOfArgTab;i++){
 		char * mid=input_final;
-		printf ("mid is %s\n",mid);
+		//printf ("mid is %s\n",mid);
 		sprintf(input_final,"%s<%s",mid,argtab[i]);
 	}
-	printf ("input final is %s\n",input_final);
+	//printf ("input final is %s\n",input_final);
 	return input_final;
 }
 

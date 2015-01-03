@@ -113,6 +113,23 @@ void handleOfCommand(char *com){
 							write(socket_service,&set[i],sizeof(int));
 							write(socket_service,&num[i],sizeof(int));
 						}
+					}else{
+						if (startswith("envoyer",com)){
+							char * arg_envy=convertirString(com);
+							printf ("arg_envy is %s\n",arg_envy);
+							int nbarg_envy;
+							char * argtab_envy[10];
+							int i;
+							for(i=0;i<10;i++){
+								argtab_envy[i]=(char *) malloc(sizeof(char)*10);
+							}	
+							nbarg_envy=str_split(arg_envy,argtab_envy);
+							
+							char * recv_image_name= (char *) malloc(sizeof(char)*255);
+							sprintf(recv_image_name,"%s/%s",headImage->path,argtab_envy[1]);
+							printf ("revc_image_name is %s\n",recv_image_name);
+							receive_image(socket_service, recv_image_name);	
+						}
 					}
 				}
 			}

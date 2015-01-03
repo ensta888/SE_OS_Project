@@ -50,13 +50,13 @@ void argStringToNb(int nb,char * argtab_class[],int *set){
 char * ToStringHis(int nbOfArgTab,char *argtab[]){
 	int i;	
 	char *input_final=argtab[0];
-	printf ("input final is %s\n",input_final);
+	//printf ("input final is %s\n",input_final);
 	for (i=1;i<nbOfArgTab;i++){
 		char * mid=input_final;
-		printf ("mid is %s\n",mid);
+		//printf ("mid is %s\n",mid);
 		sprintf(input_final,"%s<%s",mid,argtab[i]);
 	}
-	printf ("input final is %s\n",input_final);
+	//printf ("input final is %s\n",input_final);
 	return input_final;
 }
 

@@ -148,8 +148,26 @@ int main(int argc, char * argv[])
 								afficherSizeDivise(len,set,num);
 							}
 						}else{
-							perror("Command does not exist");
-							printf ("If you need some help, please input \"help\"\n");
+							if (startswith("envoyer",input)){
+								char *input_final=(char *)malloc(sizeof(char)*100);
+								nbOfArgTab=str_split(input,argtab);
+								int i;
+								char * send_image_name=(char *)malloc(sizeof(char)*strlen(argtab[1]));
+								strcpy(send_image_name,argtab[1]);
+								if (nbOfArgTab<2){
+									perror("Number of arguments error");
+								}else{
+									input_final=ToStringHis(nbOfArgTab,argtab);
+									write(sock,input_final,sizeof(char)*strlen(input_final));
+									write(sock,end,sizeof(char)*strlen(end));
+									printf ("send_image_name is %s\n",send_image_name);
+									send_img(sock, send_image_name);
+								}
+									 								
+							}else{
+								perror("Command does not exist");
+								printf ("If you need some help, please input \"help\"\n");
+							}
 						}
 					}
 				}
