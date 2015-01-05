@@ -8,4 +8,4 @@ targa_image.o: targa_image.c
 	gcc -g -c targa_image.c -o targa_image.o
 
 clean:
-	rm *.o, c, s
+	rm *.o, c, s, test_cerf.tga

@@ -29,13 +29,13 @@ int countNbOfImage(NodeImage * img){
 NodeImage * headImage;//=(NodeImage *)malloc(sizeof(NodeImage))
 
 void handleOfCommand(char *com){
-	printf ("command is %s\n",com);
+	//printf ("command is %s\n",com);
 	
 	if (strcmp(com,"acquerir")==0){ //acquerir
 		headImage=(NodeImage *)malloc(sizeof(NodeImage));
 		headImage=readBankImage(PathInMyPC);
 		int nb=countNbOfImage(headImage);
-		printf ("number is %d\n",nb);
+		printf ("Number is %d\n",nb);
 		write(socket_service,&nb,sizeof(int));
 	}else{
 		if (strcmp(com,"afficher")==0){//afficher
@@ -87,6 +87,10 @@ void handleOfCommand(char *com){
 						}
 						printf ("\n");
 					}
+					for(i=0;i<10;i++){
+						free(argtab_his[i]); argtab_his[i]=NULL;
+					}
+					free(hisimg); hisimg=NULL;
 				}
 				else{
 					if (startswith("classifier",com)){
@@ -101,8 +105,7 @@ void handleOfCommand(char *com){
 							argtab_class[i]=(char *) malloc(sizeof(char)*10);
 						}	
 						nbarg_class=str_split(arg_class,argtab_class);	
-						if (strcmp(argtab_class[1],"size")==0){
-							argStringToNb(nbarg_class,argtab_class,set);
+						if (strcmp(argtab_class[1],"size")==0){	argStringToNb(nbarg_class,argtab_class,set);
 							diviserRepertoire(headImage->path,set,num,nbarg_class-2);
 						}	
 						//length of set and num nbarg_class-1
@@ -199,7 +202,7 @@ int main(int argc, char * argv[])
 			chat--;
 			*chat = '\0';
 			chat = begchat;
-			printf("message is %s\n",chat);
+			//printf("message is %s\n",chat);
 			handleOfCommand(chat);
 			
 		}

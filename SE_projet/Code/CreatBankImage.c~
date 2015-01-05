@@ -1,19 +1,6 @@
 //http://blog.csdn.net/lin_fs/article/details/7335573
 #include"CreatBankImage.h"
 
-NodeImage * findNodeImage(char *imagename, NodeImage * head){
-	NodeImage * current=head;
-	while(current!=NULL){
-		printf ("current image name is %s\n",current->imageName);
-		if(strcmp(imagename,current->imageName)==0){
-					
-			return  current;
-		}
-		current=current->next;
-	}
-	return NULL;
-}
-
 NodeImage * createNodeImage(char * imagename,const char * path,int i){
 	//ajouter le nom complet avec la repertoire
 	char * filename= (char *) malloc(sizeof(char)*255);
@@ -29,21 +16,23 @@ NodeImage * createNodeImage(char * imagename,const char * path,int i){
 	
 
 	//ouvrir l'image avec un type d'targa   la fonction est dans un autre fichier
-	targa_header headImage;
-	image_desc imgdesc;
+	targa_header * headerImage;
+	image_desc * imgdesc;
 
 	int ans;
-	ans=readImage(&imgdesc,&headImage,filename);
+	ans=readImage(imgdesc,headerImage,filename);
 	if (ans!=1){
 		perror("read image failed!");
 		exit(1);  //comment traiter les erreurs ????
 	}
 
-	img->width=headImage.width;
-	img->height=headImage.height;
+	img->width=headerImage->width;
+	img->height=headerImage->height;
 	int size=img->width*img->height*3/1000;
 	img->size=size;
 	img->next=NULL;
+	free(imgdesc);
+	free(headerImage); headerImage=NULL;
 /*
 	printf ("Image Info:\n");
 	printf ("-----------------------\n");

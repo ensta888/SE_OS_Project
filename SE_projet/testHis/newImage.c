@@ -1,23 +1,18 @@
 #include "targa_image.h"
 #include<stdlib.h>
 
-int main(){
+void drawHisto(char * filename){
 	char * fName;
 	char * Name;
 	int p;
 	int x;
 	int y;
 	image_desc iDesc;
-	image_desc *pDesc;
-	targa_header *pHead;
+	image_desc *pDesc=malloc(sizeof(image_desc)*1);;
+	targa_header *pHead=malloc(sizeof(targa_header)*1);;
 
-	pDesc=malloc(sizeof(image_desc)*1);
-	pHead=malloc(sizeof(targa_header)*1); 
 	Name="/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre_3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/images/cerf.tga";
  	readImage(pDesc, pHead, Name);
-
-	fName="/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre_3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/test_cerf.tga";
-	
 
 	iDesc.width=350;
 	iDesc.height=350;
@@ -52,10 +47,12 @@ int main(){
 		*(iDesc.pRed+p)=255;
 		*(iDesc.pGreen+p)=255;
 	}
-	
-	
-
 	writeImage (iDesc, *pHead, fName);
 
+}
+
+int main(){
+	fName="/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre_3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/test_cerf.tga";
+	drawHisto(fName);
 	return 0;
 }

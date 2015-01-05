@@ -65,7 +65,7 @@ int main(int argc, char * argv[])
 		if (strcmp(input,"acquerir")==0){ //acquerir
 			write(sock,acq,sizeof(char)*strlen(acq));
 			write(sock,end,sizeof(char)*strlen(end));
-			printf ("you had demanded acquerir\n");
+			//printf ("you had demanded acquerir\n");
 			int nb=0;
 			read(sock, &nb, sizeof(int));
 			if (nb==0 || nb==1) printf("There are %d image\n",nb);
@@ -74,7 +74,7 @@ int main(int argc, char * argv[])
 			if (strcmp(input,"afficher")==0){//afficher 
 				write(sock,aff,sizeof(char)*strlen(aff));
 				write(sock,end,sizeof(char));
-				printf ("you had demanded afficher\n");
+				//printf ("you had demanded afficher\n");
 			
 				char *imageName_rv= (char *) malloc (sizeof(char)*MAXIMAGENAME);
 				char *begImg=imageName_rv;
@@ -83,13 +83,14 @@ int main(int argc, char * argv[])
 				do{
 					c = EOF;
 					read(sock, &c, sizeof(char));
-					printf ("%c",c);
+					//printf ("%c",c);
 					*imageName_rv = c;
 					imageName_rv++;
 					if (c == '\n' || c == EOF){
 						*imageName_rv = '\0';
 						imageName_rv = begImg;
-						printf ("imageName is %s",imageName_rv);
+						//printf ("imageName is %s",imageName_rv);
+
 						if (strcmp(final,imageName_rv)!=0)
 							printf ("filename is %s",imageName_rv);
 						else break;

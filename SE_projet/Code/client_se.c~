@@ -83,13 +83,14 @@ int main(int argc, char * argv[])
 				do{
 					c = EOF;
 					read(sock, &c, sizeof(char));
-					printf ("%c",c);
+					//printf ("%c",c);
 					*imageName_rv = c;
 					imageName_rv++;
 					if (c == '\n' || c == EOF){
 						*imageName_rv = '\0';
 						imageName_rv = begImg;
-						printf ("imageName is %s",imageName_rv);
+						//printf ("imageName is %s",imageName_rv);
+
 						if (strcmp(final,imageName_rv)!=0)
 							printf ("filename is %s",imageName_rv);
 						else break;
@@ -161,7 +162,7 @@ int main(int argc, char * argv[])
 									write(sock,input_final,sizeof(char)*strlen(input_final));
 									write(sock,end,sizeof(char)*strlen(end));
 									printf ("send_image_name is %s\n",send_image_name);
-									send_img(sock, send_image_name)
+									send_img(sock, send_image_name);
 								}
 									 								
 							}else{

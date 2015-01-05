@@ -5,8 +5,8 @@
 /* 
  A simplified targa header.
 */
-#ifndef targa_header
-#define targa_header
+#ifndef _targa_header
+#define _targa_header
 typedef struct targa_header_ {
   uint8_t  idlength;
   uint8_t  colourmaptype;
@@ -19,8 +19,8 @@ typedef struct targa_header_ {
 #endif
 
 /* Structure for manipulating an image */
-#ifndef image_desc
-#define image_desc
+#ifndef _image_desc
+#define _image_desc
 typedef struct image_desc_
 {
   char *fname;               /* Libellé du fichier image (path)                 */

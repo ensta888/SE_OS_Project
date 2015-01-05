@@ -8,13 +8,18 @@
 #ifndef _targa_header
 #define _targa_header
 typedef struct targa_header_ {
-  uint8_t  idlength;
-  uint8_t  colourmaptype;
-  uint8_t  datatypecode;
-  uint8_t useless[9];
-  uint16_t width;
-  uint16_t height;
-  uint8_t useless2[2];
+   char id_len;                 // ID Field (Number of bytes - max 255)
+   char map_type;               // Colormap Field (0 or 1)
+   char img_type;               // Image Type (7 options - color vs. compression)
+   int  map_first;              // Color Map stuff - first entry index
+   int  map_len;                // Color Map stuff - total entries in file
+   char map_entry_size;         // Color Map stuff - number of bits per entry
+   int  x;                      // X-coordinate of origin 
+   int  y;                      // Y-coordinate of origin
+   int  width;                  // Width in Pixels
+   int  height;                 // Height in Pixels
+   char bpp;                    // Number of bits per pixel
+   char misc;                   // Other stuff - scan origin and alpha bits
 } targa_header;
 #endif
 
