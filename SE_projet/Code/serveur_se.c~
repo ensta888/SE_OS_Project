@@ -80,6 +80,8 @@ void handleOfCommand(char *com){
 					sprintf(hisimg,"%s/%s",headImage->path,argtab_his[1]);
 					printf ("filename is %s\n",hisimg);
 					histogramme(hisimg,* his_img,M,N);
+					int count_bgr=calculBgr(argtab_his[2]);
+					drawHisImage_main(&his_img[0][0],count_bgr);
 					int j;
 					for (i=0;i<M;i++){
 						for (j=0;j<N;j++){
@@ -88,7 +90,7 @@ void handleOfCommand(char *com){
 						printf ("\n");
 					}
 					for(i=0;i<10;i++){
-						free(argtab_his); argtab_his=NULL;
+						free(argtab_his[i]); argtab_his[i]=NULL;
 					}
 					free(hisimg); hisimg=NULL;
 				}

@@ -115,7 +115,7 @@ int main(void) {
 		pix[45][y].r=0;
 	}
 //draw valeur on axe x
-	for (x=45;x<600-45;x+=10){
+	for (x=45;x<600-45;x+=50){
 		for (y=600-50;y>600-60;y--){
 			pix[x][y].b=0;
 			pix[x][y].g=0;

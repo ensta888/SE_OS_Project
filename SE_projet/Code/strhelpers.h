@@ -31,3 +31,5 @@ void argStringToNb(int nb,char * argtab_class[],int *set);
 char * ToStringHis(int nbOfArgTab,char *argtab[]);
 
 char * convertirString(char *str);
+
+int calculBgr(char *str);

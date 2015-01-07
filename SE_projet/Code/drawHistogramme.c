@@ -78,13 +78,14 @@ void afficherHis(int *his){
 }
 
 void drawHisImage_main(int * his,int count_bgr) {
+   printf ("count_bgr is %d\n",count_bgr);
    FILE *tga;               // Pointer to a FILE
    targa_header_his header;     // Variable of targa_header type
    int x, y;
    int i,j,k;
 
 /* First, set all the fields in the header to appropriate values */
-   afficherHis(his);
+   //afficherHis(his);
    header.id_len = 0;          /* no ID field */
    header.map_type = 0;        /* no colormap */
    header.img_type = 2;        /* trust me */
@@ -146,7 +147,7 @@ void drawHisImage_main(int * his,int count_bgr) {
 	*/
 
 //draw histo his[0] blue
-	if (count_bgr==1){
+	if (count_bgr==1 ){
 		for (i=0;i<256;i++){
 			int yy=*(his+0*256+i);
 			yy>500?yy=500:yy;
@@ -199,7 +200,7 @@ void drawHisImage_main(int * his,int count_bgr) {
    fclose(tga);
 
 }
-
+/*
 int main(){
 	int his[3][256];
 	int i,j;
@@ -210,6 +211,6 @@ int main(){
 	}
 	drawHisImage_main(&his[0][0],1);
 	return 0;
-}
+}*/
 
 

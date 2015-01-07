@@ -69,3 +69,24 @@ char * convertirString(char *str){
 	}
 	return str;
 }
+
+int calculBgr(char *str){
+	int len =strlen(str);
+	int count=0;
+	int i;
+	for (i=0;i<len;i++){
+		if (str[i]=='b' || str[i]=='B'){
+			count+=1;
+		}else{
+			if (str[i]=='g' || str[i]=='G'){
+				count+=10;
+			}else{
+				if (str[i]=='r' || str[i]=='R'){
+					count+=100;
+				}
+			}
+		}
+		
+	}
+	return count;
+}
