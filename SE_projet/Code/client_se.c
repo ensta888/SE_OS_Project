@@ -166,8 +166,62 @@ int main(int argc, char * argv[])
 								}
 									 								
 							}else{
-								perror("Command does not exist");
-								printf ("If you need some help, please input \"help\"\n");
+								if (startswith("help",input)){
+								  if(strcmp("help",input)==0){
+									printf ("-------help info-------\n");
+									printf("for more infos, please check help <option>\n");
+									printf ("help acquerir\n");
+									printf ("help afficher\n");
+									printf ("help quitter\n");
+									printf ("help histogramme\n");
+									printf ("histogramme <filename> <option(r/g/b/rgb)>\n");
+									printf ("help classifier\n");
+									printf ("classifier <option(size/coulour)> <argument>\n");
+									printf ("help envoyer\n");
+									printf ("-----------------------\n");
+								  }else{
+								    nbOfArgTab=str_split(input,argtab);
+								    if (strcmp("acquerir",argtab[1])==0){
+								      printf("\"acquerir\"\n");
+								      printf("load images and create a list contains infos about images, this command does not have any argument\n");
+								    }else{
+								      if(strcmp("afficher",argtab[1])==0){
+								        printf ("\"afficher\"\n");
+									printf ("print all the filenames in the list, this command does not have any argument\n");
+								      }else{
+									if(strcmp("quitter",argtab[1])==0){
+									  printf ("\"quitter\"\n");
+									  printf ("exit the programme, this command does not have any argument\n");
+									}else{
+									  if (strcmp("histogramme",argtab[1])==0){
+									    printf ("histogramme <filename> <option(r/g/b/rgb)>\n");
+									    printf("it will return an histogram of the image you choose(filename) according to the channel you choose (cf: option), thisi command must have three arguments\n");
+									  }else{
+									    if (strcmp("classifier",argtab[1])==0){
+									      printf("classifier <option(size/coulour)> <argument>\n");
+									      printf ("it will divise into different sets according to your option, and it will return an histogram, the arguments of this command is no less than 3\n");
+									      printf ("for the option <classifier> <size> <argument>\n");
+									      printf ("you can put any interger you want, but the number of arguments is at least 1, no more than 10\n");
+									      printf ("for the <classifier> <color> <r/g/b>\n");
+									      printf ("you choose one of three color(r/g/b), and it will return serveral sets divised by which color is in majority\n");
+			
+									    }else{
+									      if (strcmp("envoyer",argtab[1])==0){
+									        printf ("envoyer\n"),
+										printf ("this command will send an image to server, and server will update the bank of images, and this command does not have any argument\n");
+									      }else{
+										printf ("Sorry, I cannot identify what you want, you can try help to sure you have the right command\n");
+									      }
+									    }
+									  }
+									}
+								      }
+								    }
+								  }
+								}else{
+									perror("Command does not exist");
+									printf ("If you need some help, please input \"help\"\n");
+								}
 							}
 						}
 					}

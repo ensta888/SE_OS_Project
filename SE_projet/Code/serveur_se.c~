@@ -79,9 +79,9 @@ void handleOfCommand(char *com){
 					char *hisimg=(char *)malloc(sizeof(char)*200);					
 					sprintf(hisimg,"%s/%s",headImage->path,argtab_his[1]);
 					printf ("filename is %s\n",hisimg);
-					histogramme(hisimg,* his_img,M,N);
+					int nbOfPix=histogramme(hisimg,* his_img,M,N);
 					int count_bgr=calculBgr(argtab_his[2]);
-					drawHisImage_main(&his_img[0][0],count_bgr);
+					drawHisImage_main(&his_img[0][0],count_bgr,nbOfPix);
 					for(i=0;i<10;i++){
 						free(argtab_his[i]); argtab_his[i]=NULL;
 					}

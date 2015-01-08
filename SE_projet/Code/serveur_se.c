@@ -185,6 +185,7 @@ int main(int argc, char * argv[])
 
 	read_header(socket_service, talker);
 	printf("%s is connected\n", talker);
+	free(talker);talker=NULL;	
 	
 	char c;
 	do{
