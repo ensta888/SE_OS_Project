@@ -2,4 +2,5 @@
 #include<string.h>
 
 #include"targa_image.h"
+
 void histogramme(const char * imageName,int * his,int m,int n);

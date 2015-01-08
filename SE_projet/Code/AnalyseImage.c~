@@ -19,12 +19,7 @@ void histogramme(const char * imageName,int * his,int m,int n){
 			his[2][*(pDesc->pBlue+i)]++;	
 	*/
 		}
-		for (i=0;i<m;i++){
-			for (j=0;j<n;j++){
-				printf ("%d ",his[i][j]);
-			}
-			printf ("\n");
-		}
+		
 	
 	}
 

@@ -14,7 +14,7 @@
 #define MAXTEXT 100
 
 #ifndef M
-#define M 5
+#define M 3
 #endif
 
 #ifndef N

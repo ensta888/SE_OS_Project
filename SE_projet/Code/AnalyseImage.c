@@ -1,6 +1,6 @@
 #include"AnalyseImage.h"
 
-void histogramme(const char * imageName,int * his,int m,int n){
+int histogramme(const char * imageName,int * his,int m,int n){
 	targa_header * pHead= (targa_header *) malloc(sizeof(targa_header));
 	image_desc * pDesc=(image_desc *) malloc(sizeof(image_desc));	
 	if (readImage(pDesc,pHead, imageName)!=1){
@@ -22,6 +22,7 @@ void histogramme(const char * imageName,int * his,int m,int n){
 		
 	
 	}
+	return pDesc->width*pDesc->height;
 
 }
 

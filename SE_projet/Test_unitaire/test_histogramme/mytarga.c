@@ -2,6 +2,7 @@
 //http://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&ved=0CFIQFjAI&url=http%3A%2F%2Fwww.tjhsst.edu%2F~dhyatt%2Fsuperap%2Fcode%2Ftarga.c&ei=ahGrVNbnDNavacH1gOAO&usg=AFQjCNHJofOVDERIfuoXSFD0DbXxg0uQGA&sig2=ADgZi1tFtGe0wp59lwbE9A&bvm=bv.82001339,d.d2s
 
 #include <stdio.h>
+#include <string.h>
 
 /* This is the format for a header of a targa file.  The header tells
    basic information about the file prior to listing the RGB data    */
@@ -61,7 +62,29 @@ void writeheader(targa_header_his h, FILE *tga)
    fputc(h.misc, tga);
 }
 
+int * handleOfHis(int *his){
+	int i,j;
+	int sum=0;
+	int his_8[3][256/8];
+	memset(his,0,sizeof(his));
+	for (j=0;j<3;j++){
+		int count=0;
+		for (i=0;i<256;i++){
+			if (i%8==0 && i!=0){
+				his_8[j][count]=sum;
+				count++;
+				printf ("%d ",sum);
+				printf ("count is %d ",count)
+				sum=0;
+			}else
+				sum+=*(his+j*256+i);
+		}
+		printf ("\n");
+	}
+	return his_8;
+}
 
+/*
 void afficherHis(int *his){
 	int i,j;
 	int sum=0;
@@ -75,16 +98,17 @@ void afficherHis(int *his){
 		printf ("\n");
 		printf ("sum is %d \n",sum);
 	}
-}
+}*/
 
 void drawHisImage_main(int * his,int count_bgr) {
+   printf ("count_bgr is %d\n",count_bgr);
    FILE *tga;               // Pointer to a FILE
    targa_header_his header;     // Variable of targa_header type
    int x, y;
    int i,j,k;
-
+   
 /* First, set all the fields in the header to appropriate values */
-   afficherHis(his);
+   //afficherHis(his);
    header.id_len = 0;          /* no ID field */
    header.map_type = 0;        /* no colormap */
    header.img_type = 2;        /* trust me */
@@ -102,6 +126,7 @@ void drawHisImage_main(int * his,int count_bgr) {
       write in binary mode (wb) so that nothing is lost as characters
       are written to the file */
 
+   int *his_8=handleOfHis(his);
    tga = fopen("test.tga", "wb"); /* Write the header information  */
 
    writeheader(header, tga);  
@@ -123,16 +148,16 @@ void drawHisImage_main(int * his,int count_bgr) {
 	}
 
 //draw axe x
-	for (x=45;x<600-45;x++){
+	for (x=44;x<600-44;x++){
 		pix[x][600-50].b=0;
 		pix[x][600-50].g=0;
 		pix[x][600-50].r=0;
 	}	
 //draw axe y
 	for (y=50;y<600-50;y++){
-		pix[45][y].b=0;
-		pix[45][y].g=0;
-		pix[45][y].r=0;
+		pix[44][y].b=0;
+		pix[44][y].g=0;
+		pix[44][y].r=0;
 	}
 /*
 //draw valeur on axe x
@@ -144,25 +169,26 @@ void drawHisImage_main(int * his,int count_bgr) {
 		}
 	}
 	*/
-
+	int yy;
 //draw histo his[0] blue
-	if (count_bgr==1){
-		for (i=0;i<256;i++){
-			int yy=*(his+0*256+i);
-			yy>500?yy=500:yy;
+	if (count_bgr==1 || count_bgr==111){
+		for (i=0;i<32;i++){
+			yy=*(his_8+0*256+i);
 			while(yy!=0){
-				pix[45+i*2][550-yy].b=255;
-				pix[45+i*2][550-yy].g=0;
-				pix[45+i*2][550-yy].r=0;
+				for (k=0;k<4;k++){
+					pix[44+i*16+k][550-yy].b=255;
+					pix[44+i*16+k][550-yy].g=0;
+					pix[44+i*16+k][550-yy].r=0;
+				}
 				yy--;
 			}
 		}
 	}
-
+/*
 //draw histo his[1] green
-	if (count_bgr==10){
+	if (count_bgr==10 || count_bgr==111){
 		for (i=0;i<256;i++){
-			int yy=*(his+1*256+i);
+			int yy=*(his_8+1*256+i);
 			while(yy!=0){
 				pix[45+i*2][550-yy].b+=0;
 				pix[45+i*2][550-yy].g+=255;
@@ -185,7 +211,7 @@ void drawHisImage_main(int * his,int count_bgr) {
 	}
 
 
-
+*/
 //draw the final image
 	for(y = 0; y < header.height; y++){      // Create 100 Rows of Pixels 
 		for(x = 0; x < header.width; x++){   // Create 200 Pixels in each Row

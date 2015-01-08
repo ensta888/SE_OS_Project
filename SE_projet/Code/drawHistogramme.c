@@ -2,6 +2,7 @@
 //http://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&ved=0CFIQFjAI&url=http%3A%2F%2Fwww.tjhsst.edu%2F~dhyatt%2Fsuperap%2Fcode%2Ftarga.c&ei=ahGrVNbnDNavacH1gOAO&usg=AFQjCNHJofOVDERIfuoXSFD0DbXxg0uQGA&sig2=ADgZi1tFtGe0wp59lwbE9A&bvm=bv.82001339,d.d2s
 
 #include <stdio.h>
+#include <string.h>
 
 /* This is the format for a header of a targa file.  The header tells
    basic information about the file prior to listing the RGB data    */
@@ -61,14 +62,34 @@ void writeheader(targa_header_his h, FILE *tga)
    fputc(h.misc, tga);
 }
 
+int * handleOfHis(int *his,int nb){
+	int i,j;
+	int sum=0;
+	int his_8[3][32];
+	for (j=0;j<3;j++){
+		int count=0;
+		for (i=0;i<256;i++){
+			if (i%8==0 && i!=0){
+				his_8[j][count]=sum*100/nb;
+				count++;
+				sum=0;
+			}else{
+				sum+=*(his+j*256+i);
+			}
+		}
+	}
 
-void afficherHis(int *his){
+	return &his_8[0][0];
+}
+
+
+void afficherHis(int *hist,int nb){
 	int i,j;
 	int sum=0;
 	printf ("--------------histo info\n");
 	for (i=0;i<3;i++){
-		for (j=0;j<256;j++){
-			int a=*(his+i*256+j);
+		for (j=0;j<nb;j++){
+			int a=*(hist+i*256+j);
 			printf ("%d ",a);
 			sum+=a;
 		}
@@ -77,15 +98,16 @@ void afficherHis(int *his){
 	}
 }
 
-void drawHisImage_main(int * his,int count_bgr) {
+void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
    printf ("count_bgr is %d\n",count_bgr);
+   printf ("nbofpix is %d\n",nbOfPix);
    FILE *tga;               // Pointer to a FILE
    targa_header_his header;     // Variable of targa_header type
    int x, y;
    int i,j,k;
-
+   
 /* First, set all the fields in the header to appropriate values */
-   //afficherHis(his);
+  // afficherHis(his,256);
    header.id_len = 0;          /* no ID field */
    header.map_type = 0;        /* no colormap */
    header.img_type = 2;        /* trust me */
@@ -102,7 +124,14 @@ void drawHisImage_main(int * his,int count_bgr) {
 /* Open a file for writing targa data.  Call the file "test.tga" and
       write in binary mode (wb) so that nothing is lost as characters
       are written to the file */
+ 
 
+   int * his_8=handleOfHis(his,nbOfPix);
+   for (i=0;i<3;i++){
+	for (j=0;j<32;j++){
+			printf ("%d ",*(his_8+i*32+j));
+		}
+	}
    tga = fopen("test.tga", "wb"); /* Write the header information  */
 
    writeheader(header, tga);  
@@ -124,62 +153,64 @@ void drawHisImage_main(int * his,int count_bgr) {
 	}
 
 //draw axe x
-	for (x=45;x<600-45;x++){
+	for (x=44;x<600-44;x++){
 		pix[x][600-50].b=0;
 		pix[x][600-50].g=0;
 		pix[x][600-50].r=0;
 	}	
 //draw axe y
 	for (y=50;y<600-50;y++){
-		pix[45][y].b=0;
-		pix[45][y].g=0;
-		pix[45][y].r=0;
+		pix[44][y].b=0;
+		pix[44][y].g=0;
+		pix[44][y].r=0;
 	}
-/*
-//draw valeur on axe x
-	for (x=45;x<600-45;x+=50){
-		for (y=600-50;y>600-60;y--){
-			pix[x][y].b=0;
-			pix[x][y].g=0;
-			pix[x][y].r=0;
-		}
-	}
-	*/
 
+	//afficherHis(his_8,32);
+	
 //draw histo his[0] blue
-	if (count_bgr==1 ){
-		for (i=0;i<256;i++){
-			int yy=*(his+0*256+i);
-			yy>500?yy=500:yy;
+	int yy;
+	if (count_bgr==1 || count_bgr==111){
+		for (i=0;i<32;i++){
+			yy=*(his_8+0*32+i);
+			//printf ("yy is %d\n",yy);
 			while(yy!=0){
-				pix[45+i*2][550-yy].b=255;
-				pix[45+i*2][550-yy].g=0;
-				pix[45+i*2][550-yy].r=0;
+				for (k=0;k<4;k++){
+					pix[44+i*16+k][550-yy].b=255;
+					pix[44+i*16+k][550-yy].g=0;
+					pix[44+i*16+k][550-yy].r=0;
+				}
 				yy--;
 			}
 		}
 	}
 
+	
 //draw histo his[1] green
-	if (count_bgr==10){
-		for (i=0;i<256;i++){
-			int yy=*(his+1*256+i);
+	if (count_bgr==10 || count_bgr==111){
+		for (i=0;i<32;i++){
+			yy=*(his_8+1*32+i);
+			//printf ("green yy is %d\n",yy);
 			while(yy!=0){
-				pix[45+i*2][550-yy].b+=0;
-				pix[45+i*2][550-yy].g+=255;
-				pix[45+i*2][550-yy].r+=0;
+				for (k=0;k<4;k++){
+					pix[48+i*16+k][550-yy].b=0;
+					pix[48+i*16+k][550-yy].g=255;
+					pix[48+i*16+k][550-yy].r=0;
+				}
 				yy--;
 			}
 		}
 	}
 //draw histo his[2] red
-	if (count_bgr==100){
-		for (i=0;i<256;i++){
-			int yy=*(his+2*256+i)*5;
+	if (count_bgr==100 || count_bgr==111){
+		for (i=0;i<32;i++){
+			yy=*(his_8+2*32+i);
+			//printf ("red yy is %d\n",yy);
 			while(yy!=0){
-				pix[45+i*2][550-yy].b+=0;
-				pix[45+i*2][550-yy].g+=0;
-				pix[45+i*2][550-yy].r+=255;
+				for (k=0;k<4;k++){
+					pix[52+i*16+k][550-yy].b=0;
+					pix[52+i*16+k][550-yy].g=0;
+					pix[52+i*16+k][550-yy].r=255;
+				}
 				yy--;
 			}
 		}

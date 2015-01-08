@@ -77,7 +77,6 @@ int main(void) {
       write in binary mode (wb) so that nothing is lost as characters
       are written to the file */
 
-int i;
    tga = fopen("test.tga", "wb"); /* Write the header information  */
 
    writeheader(header, tga);  

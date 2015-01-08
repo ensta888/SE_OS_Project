@@ -2,11 +2,13 @@
 //http://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&ved=0CFIQFjAI&url=http%3A%2F%2Fwww.tjhsst.edu%2F~dhyatt%2Fsuperap%2Fcode%2Ftarga.c&ei=ahGrVNbnDNavacH1gOAO&usg=AFQjCNHJofOVDERIfuoXSFD0DbXxg0uQGA&sig2=ADgZi1tFtGe0wp59lwbE9A&bvm=bv.82001339,d.d2s
 
 #include <stdio.h>
+#include <string.h>
 
 /* This is the format for a header of a targa file.  The header tells
    basic information about the file prior to listing the RGB data    */
-
-typedef struct targa_header_{
+#ifndef _targa_header_his
+#define _targa_header_his
+typedef struct targa_header_his_{
    char id_len;                 // ID Field (Number of bytes - max 255)
    char map_type;               // Colormap Field (0 or 1)
    char img_type;               // Image Type (7 options - color vs. compression)
@@ -19,14 +21,17 @@ typedef struct targa_header_{
    int  height;                 // Height in Pixels
    char bpp;                    // Number of bits per pixel
    char misc;                   // Other stuff - scan origin and alpha bits
-} targa_header;
+} targa_header_his;
+#endif
 
-
+#ifndef _pixel
+#define _pixel
 typedef struct pixel_{
 	int b;
 	int g;
 	int r;
 }pixel;
+#endif
 
 /* This function writes the header information to the file.  The function 
    has some unusual manipulations because integers in a targa file are two 
@@ -35,7 +40,7 @@ typedef struct pixel_{
    be done to write the low order bytes first using MOD (%), followed by 
    the high order bytes using DIV (/) for any integers.  */
    
-void writeheader(targa_header h, FILE *tga) 
+void writeheader(targa_header_his h, FILE *tga) 
   {
    fputc(h.id_len, tga);          // Write chars for ID, map, and image type
    fputc(h.map_type, tga);
@@ -57,14 +62,53 @@ void writeheader(targa_header h, FILE *tga)
    fputc(h.misc, tga);
 }
 
+int * handleOfHis(int *his){
+	int i,j;
+	int sum=0;
+	int his_8[3][256/8];
+	memset(his,0,sizeof(his));
+	for (j=0;j<3;j++){
+		int count=0;
+		for (i=0;i<256;i++){
+			if (i%8==0 && i!=0){
+				his_8[j][count]=sum;
+				count++;
+				printf ("%d ",sum);
+				printf ("count is %d ",count)
+				sum=0;
+			}else
+				sum+=*(his+j*256+i);
+		}
+		printf ("\n");
+	}
+	return his_8;
+}
 
 
-int main(void) {
+void afficherHis(int *his){
+	int i,j;
+	int sum=0;
+	printf ("--------------histo info\n");
+	for (i=0;i<3;i++){
+		for (j=0;j<256;j++){
+			int a=*(his+i*256+j);
+			printf ("%d ",a);
+			sum+=a;
+		}
+		printf ("\n");
+		printf ("sum is %d \n",sum);
+	}
+}
+
+void drawHisImage_main(int * his,int count_bgr) {
+   printf ("count_bgr is %d\n",count_bgr);
    FILE *tga;               // Pointer to a FILE
-   targa_header header;     // Variable of targa_header type
+   targa_header_his header;     // Variable of targa_header type
    int x, y;
-
+   int i,j,k;
+   
 /* First, set all the fields in the header to appropriate values */
+   //afficherHis(his);
    header.id_len = 0;          /* no ID field */
    header.map_type = 0;        /* no colormap */
    header.img_type = 2;        /* trust me */
@@ -82,6 +126,7 @@ int main(void) {
       write in binary mode (wb) so that nothing is lost as characters
       are written to the file */
 
+   int *his_8=handleOfHis(his);
    tga = fopen("test.tga", "wb"); /* Write the header information  */
 
    writeheader(header, tga);  
@@ -103,17 +148,18 @@ int main(void) {
 	}
 
 //draw axe x
-	for (x=45;x<600-45;x++){
+	for (x=44;x<600-44;x++){
 		pix[x][600-50].b=0;
 		pix[x][600-50].g=0;
 		pix[x][600-50].r=0;
 	}	
 //draw axe y
 	for (y=50;y<600-50;y++){
-		pix[45][y].b=0;
-		pix[45][y].g=0;
-		pix[45][y].r=0;
+		pix[44][y].b=0;
+		pix[44][y].g=0;
+		pix[44][y].r=0;
 	}
+/*
 //draw valeur on axe x
 	for (x=45;x<600-45;x+=50){
 		for (y=600-50;y>600-60;y--){
@@ -122,7 +168,50 @@ int main(void) {
 			pix[x][y].r=0;
 		}
 	}
-	
+	*/
+	int yy;
+//draw histo his[0] blue
+	if (count_bgr==1 || count_bgr==111){
+		for (i=0;i<32;i++){
+			yy=*(his_8+0*256+i);
+			while(yy!=0){
+				for (k=0;k<4;k++){
+					pix[44+i*16+k][550-yy].b=255;
+					pix[44+i*16+k][550-yy].g=0;
+					pix[44+i*16+k][550-yy].r=0;
+				}
+				yy--;
+			}
+		}
+	}
+/*
+//draw histo his[1] green
+	if (count_bgr==10 || count_bgr==111){
+		for (i=0;i<256;i++){
+			int yy=*(his_8+1*256+i);
+			while(yy!=0){
+				pix[45+i*2][550-yy].b+=0;
+				pix[45+i*2][550-yy].g+=255;
+				pix[45+i*2][550-yy].r+=0;
+				yy--;
+			}
+		}
+	}
+//draw histo his[2] red
+	if (count_bgr==100){
+		for (i=0;i<256;i++){
+			int yy=*(his+2*256+i)*5;
+			while(yy!=0){
+				pix[45+i*2][550-yy].b+=0;
+				pix[45+i*2][550-yy].g+=0;
+				pix[45+i*2][550-yy].r+=255;
+				yy--;
+			}
+		}
+	}
+
+
+*/
 //draw the final image
 	for(y = 0; y < header.height; y++){      // Create 100 Rows of Pixels 
 		for(x = 0; x < header.width; x++){   // Create 200 Pixels in each Row
@@ -132,14 +221,21 @@ int main(void) {
 		}
 	}
 
-
-
-
 /* close the file */
    fclose(tga);
 
+}
 
-   return 0;
+int main(){
+	int his[3][256];
+	int i,j;
+	for (i=0;i<3;i++){
+		for (j=0;j<256;j++){
+			his[i][j]=i+j;
+		}
+	}
+	drawHisImage_main(&his[0][0],1);
+	return 0;
 }
 
 
