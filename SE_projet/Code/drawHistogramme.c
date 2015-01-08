@@ -61,7 +61,7 @@ void writeheader(targa_header_his h, FILE *tga)
    fputc(h.bpp, tga);             // Write two chars
    fputc(h.misc, tga);
 }
-
+/*
 int * handleOfHis(int *his,int nb){
 	int i,j;
 	int sum=0;
@@ -82,7 +82,7 @@ int * handleOfHis(int *his,int nb){
 	return &his_8[0][0];
 }
 
-
+*/
 void afficherHis(int *hist,int nb){
 	int i,j;
 	int sum=0;
@@ -124,14 +124,14 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 /* Open a file for writing targa data.  Call the file "test.tga" and
       write in binary mode (wb) so that nothing is lost as characters
       are written to the file */
- 
+ /*
 
-   int * his_8=handleOfHis(his,nbOfPix);
+  // int * his_8=handleOfHis(his,nbOfPix);
    for (i=0;i<3;i++){
 	for (j=0;j<32;j++){
-			printf ("%d ",*(his_8+i*32+j));
+			printf ("%d ",*(his+i*32+j));
 		}
-	}
+	}*/
    tga = fopen("test.tga", "wb"); /* Write the header information  */
 
    writeheader(header, tga);  
@@ -171,7 +171,7 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 	int yy;
 	if (count_bgr==1 || count_bgr==111){
 		for (i=0;i<32;i++){
-			yy=*(his_8+0*32+i);
+			yy=*(his+0*32+i);
 			//printf ("yy is %d\n",yy);
 			while(yy!=0){
 				for (k=0;k<4;k++){
@@ -188,7 +188,7 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 //draw histo his[1] green
 	if (count_bgr==10 || count_bgr==111){
 		for (i=0;i<32;i++){
-			yy=*(his_8+1*32+i);
+			yy=*(his+1*32+i);
 			//printf ("green yy is %d\n",yy);
 			while(yy!=0){
 				for (k=0;k<4;k++){
@@ -203,7 +203,7 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 //draw histo his[2] red
 	if (count_bgr==100 || count_bgr==111){
 		for (i=0;i<32;i++){
-			yy=*(his_8+2*32+i);
+			yy=*(his+2*32+i);
 			//printf ("red yy is %d\n",yy);
 			while(yy!=0){
 				for (k=0;k<4;k++){
@@ -240,8 +240,8 @@ int main(){
 			his[i][j]=i+j;
 		}
 	}
-	drawHisImage_main(&his[0][0],1);
+	drawHisImage_main(&his[0][0],111,1000);
 	return 0;
-}*/
-
+}
+*/
 

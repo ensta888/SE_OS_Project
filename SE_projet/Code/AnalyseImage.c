@@ -3,21 +3,33 @@
 int histogramme(const char * imageName,int * his,int m,int n){
 	targa_header * pHead= (targa_header *) malloc(sizeof(targa_header));
 	image_desc * pDesc=(image_desc *) malloc(sizeof(image_desc));	
-	if (readImage(pDesc,pHead, imageName)!=1){
+	int ans=readImage(pDesc,pHead, imageName);
+
+	if (ans!=1){
 		perror("Read file failed!");
 	}else{
 		int i,j;
 		int a,b;
-		memset(his,0,3*256*sizeof(int));
+		memset(his,0,3*32*sizeof(int));
 		for (i=0;i<pDesc->width*pDesc->height;i++){
-			(*(his+0*n+*(pDesc->pRed+i)))++;
-			(*(his+1*n+*(pDesc->pRed+i)))++;
-			(*(his+2*n+*(pDesc->pRed+i)))++;
+			a=*(pDesc->pBlue+i);
+			(*(his+0*32+a/8))++;
+			a=*(pDesc->pGreen+i);
+			(*(his+1*32+a/8))++;
+			a=*(pDesc->pRed+i);
+			(*(his+2*32+a/8))++;
+			//*(his+0*n+*(pDesc->pGreen+i))=( *(his+0*n+*(pDesc->pGreen+i)) )/8+1;
+			//*(his+0*n+*(pDesc->pRed+i))=( *(his+0*n+*(pDesc->pRed+i)) )/8+1;
 	/*
 			his[0][*(pDesc->pRed+i)]++;
 			his[1][*(pDesc->pGreen+i)]++;
 			his[2][*(pDesc->pBlue+i)]++;	
 	*/
+		}
+		for (i=0;i<3;i++){
+			for (j=0;j<32;j++){
+				*(his+i*32+j)=*(his+i*32+j)*500/(pDesc->width*pDesc->height);
+			}
 		}
 		
 	

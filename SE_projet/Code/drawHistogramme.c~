@@ -1,3 +1,4 @@
+
 //source
 //http://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&ved=0CFIQFjAI&url=http%3A%2F%2Fwww.tjhsst.edu%2F~dhyatt%2Fsuperap%2Fcode%2Ftarga.c&ei=ahGrVNbnDNavacH1gOAO&usg=AFQjCNHJofOVDERIfuoXSFD0DbXxg0uQGA&sig2=ADgZi1tFtGe0wp59lwbE9A&bvm=bv.82001339,d.d2s
 
@@ -127,6 +128,11 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
  
 
    int * his_8=handleOfHis(his,nbOfPix);
+   for (i=0;i<3;i++){
+	for (j=0;j<32;j++){
+			printf ("%d ",*(his_8+i*32+j));
+		}
+	}
    tga = fopen("test.tga", "wb"); /* Write the header information  */
 
    writeheader(header, tga);  
@@ -179,11 +185,12 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 		}
 	}
 
+	
 //draw histo his[1] green
 	if (count_bgr==10 || count_bgr==111){
 		for (i=0;i<32;i++){
 			yy=*(his_8+1*32+i);
-			printf ("green yy is %d\n",yy);
+			//printf ("green yy is %d\n",yy);
 			while(yy!=0){
 				for (k=0;k<4;k++){
 					pix[48+i*16+k][550-yy].b=0;
@@ -198,7 +205,7 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 	if (count_bgr==100 || count_bgr==111){
 		for (i=0;i<32;i++){
 			yy=*(his_8+2*32+i);
-			printf ("red yy is %d\n",yy);
+			//printf ("red yy is %d\n",yy);
 			while(yy!=0){
 				for (k=0;k<4;k++){
 					pix[52+i*16+k][550-yy].b=0;
