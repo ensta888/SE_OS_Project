@@ -81,11 +81,33 @@ void handleOfCommand(char *com){
 					printf ("filename is %s\n",hisimg);
 					int nbOfPix=histogramme(hisimg,* his_img,M,N);
 					int count_bgr=calculBgr(argtab_his[2]);
-					drawHisImage_main(&his_img[0][0],count_bgr,nbOfPix);
+					/**/
+					if (count_bgr==1 || count_bgr==10 || count_bgr==100 || count_bgr==111){
+						int nbOfPix=histogramme(hisimg,* his_img,M,N);					
+						drawHisImage_main(&his_img[0][0],count_bgr,nbOfPix);
+					}else{
+						if (count_bgr==3 || count_bgr==30 || count_bgr==300){
+							int *cnt = (int *)malloc(sizeof(int)*3);
+							for (i=0;i<3;i++){
+								*(cnt+i)=0;
+							}
+							identifyColor(hisimg,cnt);
+							drawHis_threeRect(cnt);
+							for (i=0;i<3;i++){
+								printf ("cnt is %d\n",*(cnt+i));
+							}						
+						}
+					}
 					for(i=0;i<10;i++){
 						free(argtab_his[i]); argtab_his[i]=NULL;
 					}
 					free(hisimg); hisimg=NULL;
+					/**/
+					/*drawHisImage_main(&his_img[0][0],count_bgr,nbOfPix);
+					for(i=0;i<10;i++){
+						free(argtab_his[i]); argtab_his[i]=NULL;
+					}
+					free(hisimg); hisimg=NULL;*/
 				}
 				else{
 					if (startswith("classifier",com)){

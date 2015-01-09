@@ -38,4 +38,37 @@ int histogramme(const char * imageName,int * his,int m,int n){
 
 }
 
+void identifyColor(const char *imageName,int *cnt){
+	targa_header * pHead= (targa_header *) malloc(sizeof(targa_header));
+	image_desc * pDesc=(image_desc *) malloc(sizeof(image_desc));	
+	int ans=readImage(pDesc,pHead, imageName);
+
+	if (ans!=1){
+		perror("Read file failed!");
+	}else{
+		int i,j;
+		int count_b=0,count_g=0,count_r=0;
+		
+		for (i=0;i<pDesc->width*pDesc->height;i++){
+			int b=*(pDesc->pBlue+i);
+			int g=*(pDesc->pGreen+i);	
+			int r=*(pDesc->pRed+i); 
+			if (b-g>=100 && b-r>=100){
+				(*cnt)++;
+			}else{
+				if (g-b>=100 && g-r>=100){
+					(*(cnt+1))++;
+				}else{
+					if (r-g>=100 && r-b>=100){
+						(*(cnt+2))++;
+					}
+				}
+			}
+		}
+		for (i=0;i<3;i++){
+			*(cnt+i)=*(cnt+i)*200/(pDesc->width*pDesc->height);
+		}
+	}
+}
+
 

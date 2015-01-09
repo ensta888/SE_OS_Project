@@ -1,19 +1,11 @@
 #include"serveur_se.h"
 
-void print_msg(char *talker, char * chat) {
-	fputs(talker, stdout);
-	fputs(": ", stdout);
-	fputs(chat, stdout);
-	fflush(stdout);
-}
+
 
 void read_header(int sock, char * username) {
 	int loglen ;
 	read(sock, &loglen, sizeof(int));
-	//printf ("loglen is %d\n",loglen);
 	read(sock, username, sizeof(char)*loglen);
-	//printf ("username is %s\n",username);
-	//printf ("read_header finished\n");
 }
 
 int countNbOfImage(NodeImage * img){
@@ -68,24 +60,23 @@ void handleOfCommand(char *com){
 					int nbarg_his;
 					char * argtab_his[10];
 					int i;
-					int his_img[M][N];
+					int *his_img=malloc(sizeof(int)*3*256);
 					for(i=0;i<10;i++){
 						argtab_his[i]=(char *) malloc(sizeof(char)*10);
 					}
 					nbarg_his=str_split(arg_his,argtab_his);
-					//printf ("argtab[1] is %s\n",argtab[1]);
-					//printf ("head image name is %s\n",headImage->imageName);
-					//printf ("head image name is %s\n",headImage->path);
-					char *hisimg=(char *)malloc(sizeof(char)*200);					
+					char *hisimg=(char *)malloc(sizeof(char)*100);					
 					sprintf(hisimg,"%s/%s",headImage->path,argtab_his[1]);
 					printf ("filename is %s\n",hisimg);
-					int nbOfPix=histogramme(hisimg,* his_img,M,N);
+					int nbOfPix=histogramme(hisimg, his_img,M,N);
 					int count_bgr=calculBgr(argtab_his[2]);
-					drawHisImage_main(&his_img[0][0],count_bgr,nbOfPix);
+					drawHisImage_main(his_img,count_bgr,nbOfPix);
+					free(his_img);his_img=NULL;
+					free(hisimg); hisimg=NULL;
 					for(i=0;i<10;i++){
 						free(argtab_his[i]); argtab_his[i]=NULL;
 					}
-					free(hisimg); hisimg=NULL;
+					
 				}
 				else{
 					if (startswith("classifier",com)){
@@ -123,10 +114,12 @@ void handleOfCommand(char *com){
 							}	
 							nbarg_envy=str_split(arg_envy,argtab_envy);
 							
-							char * recv_image_name= (char *) malloc(sizeof(char)*255);
+							char * recv_image_name= (char *) malloc(sizeof(char)*100);
 							sprintf(recv_image_name,"%s/%s",headImage->path,argtab_envy[1]);
 							printf ("revc_image_name is %s\n",recv_image_name);
 							receive_image(socket_service, recv_image_name);	
+							//UpdateList(argtab_envy[1],headImage->path,headImage);
+							//printf ("Updated\n");
 						}
 					}
 				}
@@ -191,7 +184,6 @@ int main(int argc, char * argv[])
 	do{
 		c = EOF;
 		read(socket_service, &c, sizeof(char));
-		printf ("%c",c);
 		*chat = c;
 		chat++;
 		if (c == '\n' || c == EOF){

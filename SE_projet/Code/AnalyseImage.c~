@@ -28,7 +28,7 @@ int histogramme(const char * imageName,int * his,int m,int n){
 		}
 		for (i=0;i<3;i++){
 			for (j=0;j<32;j++){
-				*(his+i*32+j)=*(his+i*32+j)*100/(pDesc->width*pDesc->height);
+				*(his+i*32+j)=*(his+i*32+j)*500/(pDesc->width*pDesc->height);
 			}
 		}
 		
