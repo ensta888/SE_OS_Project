@@ -33,12 +33,6 @@ typedef struct pixel_{
 }pixel;
 #endif
 
-/* This function writes the header information to the file.  The function 
-   has some unusual manipulations because integers in a targa file are two 
-   bytes long and characters are only one byte long.  Because Targa files 
-   need to be read by machines of different architectures, arithmetic must
-   be done to write the low order bytes first using MOD (%), followed by 
-   the high order bytes using DIV (/) for any integers.  */
    
 void writeheader(targa_header_his h, FILE *tga) 
   {
@@ -61,28 +55,7 @@ void writeheader(targa_header_his h, FILE *tga)
    fputc(h.bpp, tga);             // Write two chars
    fputc(h.misc, tga);
 }
-/*
-int * handleOfHis(int *his,int nb){
-	int i,j;
-	int sum=0;
-	int his_8[3][32];
-	for (j=0;j<3;j++){
-		int count=0;
-		for (i=0;i<256;i++){
-			if (i%8==0 && i!=0){
-				his_8[j][count]=sum*100/nb;
-				count++;
-				sum=0;
-			}else{
-				sum+=*(his+j*256+i);
-			}
-		}
-	}
 
-	return &his_8[0][0];
-}
-
-*/
 void afficherHis(int *hist,int nb){
 	int i,j;
 	int sum=0;
@@ -124,9 +97,7 @@ void drawHis_threeRect(int * cnt){
 
    writeheader(header, tga);  
 
-   /* Write the data for a graphic that measures 100 by 200 pixels. */
-//draw the background
-	
+  
 	pixel pix[header.height][header.width];
 	for(y = 0; y < header.height; y++){      
 		for(x = 0; x < header.width; x++){   
@@ -137,18 +108,42 @@ void drawHis_threeRect(int * cnt){
 	}
 
 //draw axe x
+	x=230;y=230;
 	for (x=30;x<260-30;x++){
 		pix[x][260-30].b=0;
 		pix[x][260-30].g=0;
 		pix[x][260-30].r=0;
 	}	
+	int nb=5;
+	for (i=0;i<nb;i++){
+		for(j=nb-i;j>-nb+i;j--){
+			pix[x+i][y+j].b=0;
+			pix[x+i][y+j].g=0;
+			pix[x+i][y+j].r=0;
+		}		
+	}
 //draw axe y
+	x=30;y=30
 	for (y=30;y<260-30;y++){
 		pix[30][y].b=0;
 		pix[30][y].g=0;
 		pix[30][y].r=0;
 	}
-
+	x=
+	for (i=0;i<nb;i++){
+		for(j=i;j>-i;j--){
+			pix[x+j][y+i].b=0;
+			pix[x+j][y+i].g=0;
+			pix[x+j][y+i].r=0;
+		}		
+	}
+	for (y=50;y<550;y+=100){
+		for (x=44;x<600-44;x+=3){
+			pix[x][y].b=0;
+			pix[x][y].g=0;
+			pix[x][y].r=0;
+		}
+	}
 //draw blue
 	int yy;
 	for (x=35;x<95;x++){
@@ -205,8 +200,8 @@ void drawHis_threeRect(int * cnt){
 
 
 void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
-   printf ("count_bgr is %d\n",count_bgr);
-   printf ("nbofpix is %d\n",nbOfPix);
+  // printf ("count_bgr is %d\n",count_bgr);
+   //printf ("nbofpix is %d\n",nbOfPix);
    FILE *tga;               // Pointer to a FILE
    targa_header_his header;     // Variable of targa_header type
    int x, y;
@@ -230,28 +225,17 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 /* Open a file for writing targa data.  Call the file "test.tga" and
       write in binary mode (wb) so that nothing is lost as characters
       are written to the file */
- /*
+ 
 
-  // int * his_8=handleOfHis(his,nbOfPix);
-   for (i=0;i<3;i++){
-	for (j=0;j<32;j++){
-			printf ("%d ",*(his+i*32+j));
-		}
-	}*/
    tga = fopen("test.tga", "wb"); /* Write the header information  */
 
    writeheader(header, tga);  
 
-   /* Write the data for a graphic that measures 100 by 200 pixels. */
-//draw the background
+
 	
 	pixel pix[header.height][header.width];
-	for(y = 0; y < header.height; y++){      // Create 100 Rows of Pixels 
-		for(x = 0; x < header.width; x++){   // Create 200 Pixels in each Row
-			/* For each pixel, write a character representing the RGB color.
-			    Notice that the order that is written to the file is B-G-R.
-			    This sequence just cycles through the colors in some pattern
-			    but all char values must be integers between 0 and 255. */
+	for(y = 0; y < header.height; y++){     
+		for(x = 0; x < header.width; x++){   
 			pix[x][y].b=255;
 			pix[x][y].g=255;
 			pix[x][y].r=255;
@@ -264,11 +248,35 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 		pix[x][600-50].g=0;
 		pix[x][600-50].r=0;
 	}	
+	x=600-44;y=550;
+	int nb=5;
+	for (i=0;i<nb;i++){
+		for(j=nb-i;j>-nb+i;j--){
+			pix[x+i][y+j].b=0;
+			pix[x+i][y+j].g=0;
+			pix[x+i][y+j].r=0;
+		}		
+	}
 //draw axe y
+	x=44;y=50;
 	for (y=50;y<600-50;y++){
 		pix[44][y].b=0;
 		pix[44][y].g=0;
 		pix[44][y].r=0;
+	}
+	for (i=0;i<nb;i++){
+		for(j=i;j>-i;j--){
+			pix[x+j][y+i].b=0;
+			pix[x+j][y+i].g=0;
+			pix[x+j][y+i].r=0;
+		}		
+	}
+	for (y=50;y<550;y+=100){
+		for (x=44;x<600-44;x+=3){
+			pix[x][y].b=0;
+			pix[x][y].g=0;
+			pix[x][y].r=0;
+		}
 	}
 
 	//afficherHis(his_8,32);
@@ -325,11 +333,11 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 
 
 //draw the final image
-	for(y = 0; y < header.height; y++){      // Create 100 Rows of Pixels 
-		for(x = 0; x < header.width; x++){   // Create 200 Pixels in each Row
-			fputc(pix[x][y].b % 256, tga);               // Write char for BLUE            
-			fputc(pix[x][y].g % 256, tga);   // Write char for GREEN
-			fputc(pix[x][y].r % 256, tga);               // Write char for RED
+	for(y = 0; y < header.height; y++){     
+		for(x = 0; x < header.width; x++){  
+			fputc(pix[x][y].b % 256, tga);                      
+			fputc(pix[x][y].g % 256, tga);   
+			fputc(pix[x][y].r % 256, tga);              
 		}
 	}
 

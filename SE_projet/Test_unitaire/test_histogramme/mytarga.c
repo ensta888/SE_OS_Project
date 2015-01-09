@@ -158,13 +158,37 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 		pix[x][600-50].g=0;
 		pix[x][600-50].r=0;
 	}	
+	x=600-44;y=550;
+	int nb=5;
+	for (i=0;i<nb;i++){
+		for(j=nb-i;j>-nb+i;j--){
+			pix[x+i][y+j].b=0;
+			pix[x+i][y+j].g=0;
+			pix[x+i][y+j].r=0;
+		}		
+	}
 //draw axe y
 	for (y=50;y<600-50;y++){
 		pix[44][y].b=0;
 		pix[44][y].g=0;
 		pix[44][y].r=0;
 	}
-
+	x=44;y=50;
+	
+	for (i=0;i<nb;i++){
+		for(j=i;j>-i;j--){
+			pix[x+j][y+i].b=0;
+			pix[x+j][y+i].g=0;
+			pix[x+j][y+i].r=0;
+		}		
+	}
+	for (y=50;y<550;y+=100){
+		for (x=44;x<600-44;x+=3){
+			pix[x][y].b=0;
+			pix[x][y].g=0;
+			pix[x][y].r=0;
+		}
+	}
 	//afficherHis(his_8,32);
 	
 //draw histo his[0] blue
