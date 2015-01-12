@@ -4,13 +4,18 @@
 #include"targa_image.h"
 #include<error.h>
 
+/*
+#ifndef PathGuoxi
+#define PathGuoxi  ????
+#endif
+*/
 
 #ifndef PathInMyPC 
 #define PathInMyPC "/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre_3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/images"
 #endif
 
-#ifndef PathInSchoolPc 
-#define PathInSchoolPc "/home23/zhengta/semestre3/UV3.6/system_exploitation/SE_projet/images"
+#ifndef PathInSchoolPC 
+#define PathInSchoolPC "../images"
 #endif
 
 //const char * PathInMyPC="/home/tao/acdemaic_ENSTA_Bretagne/Year_2/Semestre 3/UV3.6/OS_system_explotation/SE_OS_Project/SE_projet/images";
@@ -28,6 +33,7 @@ typedef struct NodeImage_{
 }NodeImage;
 #endif
 
+void updateBankImage(char * imagename, char * path, NodeImage * head);
 
 NodeImage * createNodeImage(char * imagename,const char * path,int i);
 

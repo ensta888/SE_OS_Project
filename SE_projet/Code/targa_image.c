@@ -24,8 +24,6 @@ int readImage(image_desc *pDesc, targa_header *pHead, char * fName)
   fread(pHead, sizeof(targa_header), 1, fDesc);
   //printf("[mem_targa] Header : %u\n", pHead->idlength);
   head = *pHead; // on le met dans une vari. temporarire pour faciliter l'acces aux champs
-
-
   //printf("[mem_targa] Header : %u %u %u %u %u\n", head.idlength, head.colourmaptype, head.datatypecode, head.width, head.height);
 
   // Initialisation de la structure image
@@ -44,6 +42,7 @@ int readImage(image_desc *pDesc, targa_header *pHead, char * fName)
 	// read 1 int : red
 	fread(pDesc->pRed+i, sizeof(uint8_t), 1, fDesc);
   }
+  fclose(fDesc);
   return 1;
   
 }

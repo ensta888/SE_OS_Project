@@ -3,4 +3,4 @@
 
 #include"targa_image.h"
 
-void histogramme(const char * imageName,int * his,int m,int n);
+int histogramme(const char * imageName,int * his,int m,int n);

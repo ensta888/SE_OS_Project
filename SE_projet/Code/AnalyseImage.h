@@ -4,3 +4,5 @@
 #include"targa_image.h"
 
 int histogramme(const char * imageName,int * his,int m,int n);
+
+void identifyColor(const char *imageName,int *cnt);

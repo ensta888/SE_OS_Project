@@ -33,7 +33,7 @@ void handleOfCommand(char *com){
 	
 	if (strcmp(com,"acquerir")==0){ //acquerir
 		headImage=(NodeImage *)malloc(sizeof(NodeImage));
-		headImage=readBankImage(PathInMyPC);
+		headImage=readBankImage(PathInSchoolPC);
 		int nb=countNbOfImage(headImage);
 		printf ("Number is %d\n",nb);
 		write(socket_service,&nb,sizeof(int));
@@ -79,13 +79,41 @@ void handleOfCommand(char *com){
 					char *hisimg=(char *)malloc(sizeof(char)*200);					
 					sprintf(hisimg,"%s/%s",headImage->path,argtab_his[1]);
 					printf ("filename is %s\n",hisimg);
-					int nbOfPix=histogramme(hisimg,* his_img,M,N);
 					int count_bgr=calculBgr(argtab_his[2]);
-					drawHisImage_main(&his_img[0][0],count_bgr,nbOfPix);
+					/**/
+					if (count_bgr==1 || count_bgr==10 || count_bgr==100 || count_bgr==111){
+						int nbOfPix=histogramme(hisimg,* his_img,M,N);					
+						drawHisImage_main(&his_img[0][0],count_bgr,nbOfPix);
+					}else{
+						if (count_bgr==3 || count_bgr==30 || count_bgr==300){
+							int cnt[3];
+							//printf ("count_bgr is %d\n",count_bgr);
+							for (i=0;i<3;i++){
+								cnt[i]=0;
+								printf ("cnt %d is %d\n",i,cnt[i]);
+							}
+							printf ("start\n");
+							identifyColor(hisimg,cnt);
+							printf ("end identify");
+							for (i=0;i<3;i++){
+								printf ("cnt is %d\n",cnt[i]);
+							}
+							drawHis_threeRect(cnt);
+							for (i=0;i<3;i++){
+								printf ("cnt is %d\n",cnt[i]);
+							}						
+						}
+					}
 					for(i=0;i<10;i++){
 						free(argtab_his[i]); argtab_his[i]=NULL;
 					}
 					free(hisimg); hisimg=NULL;
+					/**/
+					/*drawHisImage_main(&his_img[0][0],count_bgr,nbOfPix);
+					for(i=0;i<10;i++){
+						free(argtab_his[i]); argtab_his[i]=NULL;
+					}
+					free(hisimg); hisimg=NULL;*/
 				}
 				else{
 					if (startswith("classifier",com)){
@@ -102,19 +130,38 @@ void handleOfCommand(char *com){
 						nbarg_class=str_split(arg_class,argtab_class);	
 						if (strcmp(argtab_class[1],"size")==0){	argStringToNb(nbarg_class,argtab_class,set);
 							diviserRepertoire(headImage->path,set,num,nbarg_class-2);
-						}	
+							int len=nbarg_class-1;
+							write(socket_service,&len,sizeof(int));
+							for (i=0;i<len;i++){
+								printf ("set is %d, num is %d\n",set[i],num[i]);
+								write(socket_service,&set[i],sizeof(int));
+								write(socket_service,&num[i],sizeof(int));
+							}
+						}else{
+							if (strcmp(argtab_class[1],"color")==0){
+								int count_bgr=calculBgr(argtab_class[2]);
+								//printf ("headImage path is %s\n",headImage->path);
+								divisercolor(headImage->path,num); //num[0] blue num[1] green num[2] red
+								for (i=0;i<3;i++){
+									printf ("num is %d\n",num[i]);
+								}
+							}
+						}
 						//length of set and num nbarg_class-1
 						int len=nbarg_class-1;
+						int nbImage=countNbOfImage(headImage);
+						drawHis_size(set,num,len,nbImage);
 						write(socket_service,&len,sizeof(int));
 						for (i=0;i<len;i++){
 							printf ("set is %d, num is %d\n",set[i],num[i]);
 							write(socket_service,&set[i],sizeof(int));
 							write(socket_service,&num[i],sizeof(int));
 						}
+						
 					}else{
 						if (startswith("envoyer",com)){
 							char * arg_envy=convertirString(com);
-							printf ("arg_envy is %s\n",arg_envy);
+							printf ("arg_envy is %s - %s\n",arg_envy,com);
 							int nbarg_envy;
 							char * argtab_envy[10];
 							int i;
@@ -127,6 +174,12 @@ void handleOfCommand(char *com){
 							sprintf(recv_image_name,"%s/%s",headImage->path,argtab_envy[1]);
 							printf ("revc_image_name is %s\n",recv_image_name);
 							receive_image(socket_service, recv_image_name);	
+							/*printf ("head Image name is %s\n",headImage->imageName);
+							updateBankImage(argtab_envy[1],headImage->path,headImage);
+							printf ("Updated\n");
+							int nbImage=countNbOfImage(headImage);
+							printf ("head Image name is %s\n",headImage->imageName);
+							printf ("Noe there are %d images\n",nbImage);*/
 						}
 					}
 				}

@@ -1,6 +1,14 @@
 //http://blog.csdn.net/lin_fs/article/details/7335573
 #include"CreatBankImage.h"
 
+void updateBankImage(char * imagename, char * path, NodeImage * head){
+	NodeImage * newNode=createNodeImage(imagename,path,1);
+	printf ("newNode imagename is %s\n",newNode->imageName);
+	newNode->next=head;
+	head=newNode;
+	printf ("head image name is %s\n",head->imageName);
+}
+
 NodeImage * createNodeImage(char * imagename,const char * path,int i){
 	//ajouter le nom complet avec la repertoire
 	char * filename= (char *) malloc(sizeof(char)*255);
@@ -10,29 +18,28 @@ NodeImage * createNodeImage(char * imagename,const char * path,int i){
 	img->path=(char *) malloc(sizeof(char)*100);
 	img->imageName=(char *) malloc(sizeof(char)*100);
 	img->path=path;
-	img->imageName=imagename;
+	strcpy(img->imageName,imagename);
+	//img->imageName=imagename;
 	img->id=i;
 	//printf ("Path is %s\n",img->path);
 	
 
 	//ouvrir l'image avec un type d'targa   la fonction est dans un autre fichier
-	targa_header * headerImage;
-	image_desc * imgdesc;
+	targa_header headImage;
+	image_desc imgdesc;
 
 	int ans;
-	ans=readImage(imgdesc,headerImage,filename);
+	ans=readImage(&imgdesc,&headImage,filename);
 	if (ans!=1){
 		perror("read image failed!");
 		exit(1);  //comment traiter les erreurs ????
 	}
 
-	img->width=headerImage->width;
-	img->height=headerImage->height;
+	img->width=headImage.width;
+	img->height=headImage.height;
 	int size=img->width*img->height*3/1000;
 	img->size=size;
 	img->next=NULL;
-	free(imgdesc);
-	free(headerImage); headerImage=NULL;
 /*
 	printf ("Image Info:\n");
 	printf ("-----------------------\n");

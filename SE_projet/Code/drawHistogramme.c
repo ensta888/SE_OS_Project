@@ -71,6 +71,105 @@ void afficherHis(int *hist,int nb){
 	}
 }
 
+void drawHis_size(int * set,int * num,int nbset,int nbImage){
+   int i,j,k;
+   FILE *tga;               // Pointer to a FILE
+   targa_header_his header;     // Variable of targa_header type
+   int x, y;
+  
+   header.id_len = 0;          /* no ID field */
+   header.map_type = 0;        /* no colormap */
+   header.img_type = 2;        /* trust me */
+   header.map_first = 0;       /* not used */
+   header.map_len = 0;         /* not used */
+   header.map_entry_size = 0;  /* not used */
+   header.x = 0;               /* image starts at (0,0) */
+   header.y = 0;
+   header.width = 260;         /* image is 200 x 100 */
+   header.height = 260;
+   header.bpp = 24;            /* 24 bits per pixel */
+   header.misc = 0x20;         /* scan from upper left corner */
+
+/* Open a file for writing targa data.  Call the file "test.tga" and
+      write in binary mode (wb) so that nothing is lost as characters
+      are written to the file */
+   tga = fopen("test_size.tga", "wb"); /* Write the header information  */
+
+   writeheader(header, tga);  
+
+	pixel pix[header.height][header.width];
+	for(y = 0; y < header.height; y++){      
+		for(x = 0; x < header.width; x++){   
+			pix[x][y].b=255;
+			pix[x][y].g=255;
+			pix[x][y].r=255;
+		}
+	}
+
+//draw axe x
+	
+	for (x=30;x<260-30;x++){
+		pix[x][260-30].b=0;
+		pix[x][260-30].g=0;
+		pix[x][260-30].r=0;
+	}	
+	int nb=5;
+	x=230;y=230;
+	for (i=0;i<nb;i++){
+		for(j=nb-i;j>-nb+i;j--){
+			pix[x+i][y+j].b=0;
+			pix[x+i][y+j].g=0;
+			pix[x+i][y+j].r=0;
+		}		
+	}
+	
+//draw axe y
+	
+	for (y=30;y<260-30;y++){
+		pix[30][y].b=0;
+		pix[30][y].g=0;
+		pix[30][y].r=0;
+	}
+	x=30;y=30;
+	for (i=0;i<nb;i++){
+		for(j=i;j>-i;j--){
+			pix[x+j][y+i].b=0;
+			pix[x+j][y+i].g=0;
+			pix[x+j][y+i].r=0;
+		}		
+	}
+	
+	
+//draw size set
+	
+	int yy;
+	for (i=0;i<nbset;i++){
+		for (x=20*i+5+30;x<20*i+20+30;x++){
+			yy=(*(num+i))*200/nbImage;	
+			while(yy>0){	
+				pix[x][230-yy].b=10+i*20;
+				pix[x][230-yy].g=10+i*70;	
+				pix[x][230-yy].r=10+i*120;
+				yy--;
+			}
+		}
+	}
+	
+
+//draw the final image
+	for(y = 0; y < header.height; y++){      // Create 100 Rows of Pixels 
+		for(x = 0; x < header.width; x++){   // Create 200 Pixels in each Row
+			fputc(pix[x][y].b % 256, tga);               // Write char for BLUE            
+			fputc(pix[x][y].g % 256, tga);   // Write char for GREEN
+			fputc(pix[x][y].r % 256, tga);               // Write char for RED
+		}
+	}
+
+/* close the file */
+   fclose(tga);
+
+}
+
 void drawHis_threeRect(int * cnt){
    FILE *tga;               // Pointer to a FILE
    targa_header_his header;     // Variable of targa_header type
@@ -123,27 +222,27 @@ void drawHis_threeRect(int * cnt){
 		}		
 	}
 //draw axe y
-	x=30;y=30
+	
 	for (y=30;y<260-30;y++){
 		pix[30][y].b=0;
 		pix[30][y].g=0;
 		pix[30][y].r=0;
 	}
-	x=
+	x=30;y=30;
 	for (i=0;i<nb;i++){
 		for(j=i;j>-i;j--){
 			pix[x+j][y+i].b=0;
 			pix[x+j][y+i].g=0;
 			pix[x+j][y+i].r=0;
 		}		
-	}
+	}/*
 	for (y=50;y<550;y+=100){
 		for (x=44;x<600-44;x+=3){
 			pix[x][y].b=0;
 			pix[x][y].g=0;
 			pix[x][y].r=0;
 		}
-	}
+	}*/
 //draw blue
 	int yy;
 	for (x=35;x<95;x++){
@@ -258,12 +357,13 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 		}		
 	}
 //draw axe y
-	x=44;y=50;
+	
 	for (y=50;y<600-50;y++){
 		pix[44][y].b=0;
 		pix[44][y].g=0;
 		pix[44][y].r=0;
 	}
+	x=44;y=50;
 	for (i=0;i<nb;i++){
 		for(j=i;j>-i;j--){
 			pix[x+j][y+i].b=0;
@@ -271,6 +371,7 @@ void drawHisImage_main(int * his,int count_bgr,int nbOfPix) {
 			pix[x+j][y+i].r=0;
 		}		
 	}
+//draw ---------
 	for (y=50;y<550;y+=100){
 		for (x=44;x<600-44;x+=3){
 			pix[x][y].b=0;

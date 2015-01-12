@@ -1,6 +1,15 @@
 //http://blog.csdn.net/lin_fs/article/details/7335573
 #include"CreatBankImage.h"
 
+void updateBankImage(char * imagename, char * path, NodeImage * head){
+	NodeImage * newNode=createNodeImage(imagename,path,1);
+	printf ("newNode imagename is %s\n",newNode->imageName);
+	newNode->next=(NodeImage * )malloc(sizeof(NodeImage));
+	newNode->next=head;
+	head=newNode;
+	printf ("head image name is %s\n",head->imageName);
+}
+
 NodeImage * createNodeImage(char * imagename,const char * path,int i){
 	//ajouter le nom complet avec la repertoire
 	char * filename= (char *) malloc(sizeof(char)*255);
@@ -10,7 +19,8 @@ NodeImage * createNodeImage(char * imagename,const char * path,int i){
 	img->path=(char *) malloc(sizeof(char)*100);
 	img->imageName=(char *) malloc(sizeof(char)*100);
 	img->path=path;
-	img->imageName=imagename;
+	strcpy(img->imageName,imagename);
+	//img->imageName=imagename;
 	img->id=i;
 	//printf ("Path is %s\n",img->path);
 	

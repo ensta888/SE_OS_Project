@@ -62,12 +62,14 @@ char * ToStringHis(int nbOfArgTab,char *argtab[]){
 
 char * convertirString(char *str){
 	int i;	
+	char * retstr = malloc(strlen(str));
 	for (i=0;i<strlen(str);i++){
 		if (*(str+i)=='<'){
 			*(str+i)=' ';
 		}
 	}
-	return str;
+ 	strcpy(retstr,str);
+	return retstr;
 }
 
 int calculBgr(char *str){
