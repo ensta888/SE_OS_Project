@@ -41,7 +41,7 @@ void divisercolor(const char * PathR,int *num){
 				indice=i;			
 			}
 		}
-		//printf ("max is %d\n",max);
+		printf ("max is %d\n",max);
 		(*(num+indice))++;
 		p=p->next;
 	}

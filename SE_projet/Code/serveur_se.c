@@ -124,19 +124,24 @@ void handleOfCommand(char *com){
 						int his[M][N];
 						int set[11];
 						int num[11];
+						memset(set,0,sizeof(set));
 						for(i=0;i<10;i++){
 							argtab_class[i]=(char *) malloc(sizeof(char)*10);
 						}	
 						nbarg_class=str_split(arg_class,argtab_class);	
+						int nbImage=countNbOfImage(headImage);
+						int len=3;
 						if (strcmp(argtab_class[1],"size")==0){	argStringToNb(nbarg_class,argtab_class,set);
 							diviserRepertoire(headImage->path,set,num,nbarg_class-2);
-							int len=nbarg_class-1;
+							len=nbarg_class-1;
 							write(socket_service,&len,sizeof(int));
 							for (i=0;i<len;i++){
 								printf ("set is %d, num is %d\n",set[i],num[i]);
 								write(socket_service,&set[i],sizeof(int));
 								write(socket_service,&num[i],sizeof(int));
 							}
+							
+							drawHis_size(set,num,len,nbImage);
 						}else{
 							if (strcmp(argtab_class[1],"color")==0){
 								int count_bgr=calculBgr(argtab_class[2]);
@@ -145,18 +150,11 @@ void handleOfCommand(char *com){
 								for (i=0;i<3;i++){
 									printf ("num is %d\n",num[i]);
 								}
+								drawHis_size(set,num,len,nbImage);
 							}
 						}
-						//length of set and num nbarg_class-1
-						int len=nbarg_class-1;
-						int nbImage=countNbOfImage(headImage);
-						drawHis_size(set,num,len,nbImage);
-						write(socket_service,&len,sizeof(int));
-						for (i=0;i<len;i++){
-							printf ("set is %d, num is %d\n",set[i],num[i]);
-							write(socket_service,&set[i],sizeof(int));
-							write(socket_service,&num[i],sizeof(int));
-						}
+						
+						
 						
 					}else{
 						if (startswith("envoyer",com)){
