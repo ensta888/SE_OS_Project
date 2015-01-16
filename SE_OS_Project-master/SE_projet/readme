@@ -1,0 +1,25 @@
+//tous les commandes qui peuvent vous servir
+
+acquerir  //afin de créer la liste de banque d'image
+
+afficher  //afficher les informations essentielles d'images
+
+help      //aider les utilisateurs
+
+quitter   //quitter le programme
+
+histogramme
+
+histogramme filename r/g/B (R/G/B) // donner l'histogramme du taux d'un couleur (rouge/vert/bleu)
+
+histogramme filename rgb (RGB) //donner l'histogramme du taux de 3 couleurs
+
+histogramme filename rrr/ggg/bbb //donner l'histogramme de la présence de chaque couleur, ici le dernier argument (rrr, ggg, bbb sont la même fonction)
+
+classifier
+
+classifier size 41 500 //donner l'histogramme qui reparti les images selon les tailles d'images (ici 0<le nombre d'argument en chiffre<10)
+
+classifier couleur r/g/b (R/G/B) //donner l'histogramme qui reparti les images selon le couleur en majoritaire
+
+envoyer filename (l'argument filename avec un chemin absolu)
